@@ -1,0 +1,4595 @@
+{
+"openapi": "3.0.1",
+"info": {
+"title": "Content Type Management API",
+"description": "The Content Type Management API enables brX developers to manage content types through a set of endpoints",
+"version": "1.0.0"
+},
+"externalDocs": {
+"description": "See official Bloomreach documentation",
+"url": "https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-management-api.html"
+},
+"servers": [
+{
+"url": "http://localhost:8080/management/contenttypes/v1"
+}
+],
+"security": [
+{
+"bearerAuth": []
+}
+],
+"tags": [
+{
+"name": "Content Type Operations",
+"externalDocs": {
+"description": "See",
+"url": "https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-operations.html"
+}
+}
+],
+"paths": {
+"/{project_id}/{content_type_name}": {
+"get": {
+"tags": [
+"Content Type Operations"
+],
+"summary": "Get a content type",
+"operationId": "getContentType",
+"parameters": [
+{
+"name": "project_id",
+"in": "path",
+"description": "Project specifier. Valid values: 'core', 'development'",
+"required": true,
+"schema": {
+"type": "string"
+},
+"example": "development"
+},
+{
+"name": "content_type_name",
+"in": "path",
+"description": "Name of content type",
+"required": true,
+"schema": {
+"type": "string"
+},
+"example": "banner"
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"headers": {
+"X-Resource-Version": {
+"description": "Resource's version. Must be used in any subsequent update requests of this resource",
+"style": "simple",
+"schema": {
+"type": "string"
+}
+}
+},
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ContentType"
+},
+"examples": {
+"A document type with common fields": {
+"description": "In this example, the following fields are used:\n* String (Simple, Text)\n* Date\n* Boolean (Checkbox)\n* Integer\n* Number\n* HTML\n* Rich Text\n",
+"value": {
+"name": "exampleDoctype",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "string",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "text",
+"required": true,
+"multiple": false,
+"type": "String",
+"defaultValue": [
+"Sample value text field"
+],
+"validations": {
+"maxRow": 10
+},
+"presentation": {
+"caption": "Text Field",
+"hint": "Hint for text field",
+"layoutColumn": 2,
+"displayType": "Text"
+}
+},
+{
+"name": "date",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T00:00:00.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": false
+}
+},
+{
+"name": "dateWithTime",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field with time",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+},
+{
+"name": "booleanChekbox",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+true
+],
+"presentation": {
+"caption": "Boolean Field",
+"hint": "Hint for boolean field",
+"layoutColumn": 1,
+"displayType": "Checkbox"
+}
+},
+{
+"name": "integer",
+"required": true,
+"type": "Integer",
+"defaultValue": [
+100
+],
+"presentation": {
+"caption": "Integer Field",
+"hint": "Hint for integer field",
+"layoutColumn": 2
+}
+},
+{
+"name": "number",
+"required": true,
+"multiple": true,
+"type": "Number",
+"defaultValue": [
+100.34,
+2.2
+],
+"presentation": {
+"caption": "Number Field",
+"hint": "Hint for number field",
+"layoutColumn": 2
+}
+},
+{
+"name": "html",
+"required": true,
+"type": "Html",
+"defaultValue": [
+"<p>Sample content html field</p>"
+],
+"presentation": {
+"caption": "Html Field",
+"hint": "Hint for html field",
+"layoutColumn": 2,
+"ckEditorAppendedJson": "{\n  \"keystrokes\":[[88,\"showblocks\"]],\n  \"plugins\":\"colorbutton\"\n}",
+"ckEditorOverlayedJson": "{\n  \"codemirror\": {\n    \"autoFormatOnStart\": false\n  },\n  \"ignoreEmptyParagraph\": true\n}"
+}
+},
+{
+"name": "richText",
+"required": false,
+"type": "RichText",
+"defaultValue": [
+"<p>Sample content rich text field</p>"
+],
+"presentation": {
+"caption": "Content",
+"hint": "Hint for rich text field",
+"layoutColumn": 1,
+"imagepickerType": "images",
+"imagepickerNodetypes": [
+"folder",
+"banner"
+],
+"imagepickerLastVisitedEnabled": true,
+"imagepickerLastVisitedGroupKey": "ckeditor-imagepicker",
+"imagepickerLastVisitedNodetypes": [
+"gallery",
+"banner"
+],
+"imagepickerPreferredImageVariant": "original",
+"imagepickerBasePath": "/content/gallery/brxsaas/images",
+"linkpickerType": "documents",
+"linkpickerNodetypes": [
+"folder",
+"banner"
+],
+"linkpickerLastVisitedEnabled": true,
+"linkpickerLastVisitedGroupKey": "ckeditor-linkpicker",
+"linkpickerLastVisitedNodetypes": [
+"folder"
+],
+"linkPickerLanguageContextAware": true,
+"linkPickerOpenInNewWindowEnabled": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with selectable fields": {
+"description": "In this example, the following fields are used:\n* SelectableString (Dropdown, RadioGroup, MultiSelect)\n* Boolean (Radiogroup)\n\nNote: when running this example, make sure that resource bundle documents with the following IDs exist: 'brsm.example.bundle', 'boolean.resource.bundle'. Not doing so results in an error (resource bundle not found)",
+"value": {
+"name": "exampleDoctypeWithSelections",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "dropdownWithResourceBundle",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Dynamic dropdown field",
+"hint": "Hint for dynamic dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown",
+"sortOrder": "ascending",
+"sortBy": "key",
+"showDefault": true
+}
+},
+{
+"name": "dropdownWithStaticValues",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"01"
+],
+"validations": {
+"inValues": [
+{
+"key": "01",
+"label": "New"
+},
+{
+"key": "02",
+"label": "Open"
+},
+{
+"key": "03",
+"label": "Closed"
+}
+]
+},
+"presentation": {
+"caption": "Static dropdown Field",
+"hint": "Hint for dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown"
+}
+},
+{
+"name": "radiogroup",
+"required": true,
+"type": "SelectableString",
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radio group field",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "horizontal"
+}
+},
+{
+"name": "radiogroupOnBoolean",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inResourceBundle": "boolean.resource.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "vertical"
+}
+},
+{
+"name": "staticRadiogroupOnBoolean",
+"required": false,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inValues": [
+"Open",
+"Closed"
+]
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for static radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup"
+}
+},
+{
+"name": "multiselectfieldWithResourceBundle",
+"required": true,
+"multiple": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1",
+"key2"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Multiselect field",
+"hint": "Hint for mmultiselect field with resource bundle",
+"layoutColumn": 1,
+"displayType": "MultiSelect",
+"multiSelectType": "selectlist",
+"maxRowWithoutScrollbar": 2,
+"multiSelectAllowOrder": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with linking fields": {
+"description": "In this example, the following fields are used:\n* Link (ImageLink, AnyLink)\n* EmbeddedResource\n",
+"value": {
+"name": "exampleDoctypeWithLinks",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "imageLink",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/"
+],
+"presentation": {
+"caption": "Image",
+"hint": "Hint for image link field",
+"layoutColumn": 1,
+"displayType": "ImageLink",
+"lastVisitedKey": "gallerypicker-imagelink",
+"lastVisitedEnabled": true,
+"uploadEnabled": true
+}
+},
+{
+"name": "link",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/content/documents/brxsaas/pages/about"
+],
+"presentation": {
+"caption": "Link",
+"hint": "Hint for link field",
+"layoutColumn": 2,
+"displayType": "AnyLink",
+"lookupFolderPath": "/content/documents/brxsaas/banners",
+"lookupFolderTypes": [
+"folder"
+],
+"lastVisitedNodetypes": [
+"folder"
+],
+"lastVisitedEnabled": true,
+"languageContextAware": true,
+"pickerType": "documents"
+}
+},
+{
+"name": "resource",
+"required": true,
+"type": "EmbeddedResource",
+"defaultValue": [
+{
+"filename": "hippo:resource",
+"binarydata": "/9j/4AAQSkZJRgABAQAAFAAUAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAAAUAAAAAQAAABQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAigAwAEAAAAAQAAAAUAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAAUACAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEAAH/2gAMAwEAAhEDEQA/APrD4kfAXwl46KapdRwm7uHw0l9b/bDHkjPlFmDRjAxtB289OueI/wCGPPB3/P3p3/gmT/45X0Hdf8eVr/11FNrCtlmGrTc5J38pSX4JpG1PGVYxS0frGLf3tNn/2Q==",
+"mimeType": "application/json"
+}
+],
+"presentation": {
+"caption": "Resource Field",
+"hint": "Hint for resource field",
+"layoutColumn": 2
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A fieldgroup type": {
+"description": "In this example a fieldgroup type is created",
+"value": {
+"name": "exampleFieldGroupType",
+"type": "FieldGroup",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "stringField",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "dateField",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with other field types": {
+"description": "In this example, the following fields are used:\n* Taxonomy\n* Open UI String\n\nNote: when running this example, make sure that a taxonomy with name 'testTaxonomy' already exists. Not doing so results in an error (taxonomy not found)",
+"value": {
+"name": "exampleDoctypeOthers",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "taxonomyField",
+"required": true,
+"multiple": true,
+"type": "Taxonomy",
+"defaultValue": [
+"category1"
+],
+"validations": {
+"inTaxonomy": "testTaxonomy"
+},
+"presentation": {
+"caption": "Taxonomy Field",
+"hint": "Hint for Taxonomy field",
+"layoutColumn": 2
+}
+},
+{
+"name": "openuiField",
+"required": true,
+"multiple": true,
+"type": "OpenUiExtension",
+"presentation": {
+"caption": "openui Field",
+"hint": "Hint for OpenUi field",
+"layoutColumn": 2,
+"extensionType": "commerceProductPicker"
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with field groups": {
+"description": "In this example, the following fields are used:\n* Fieldgroup\n* Selectable Fieldgroup\n\nThe example uses the following 2 fieldgroup types:\n\n```json\n{\n    \"name\": \"aFieldGroupType\",\n    \"type\": \"FieldGroup\",\n    \"enabled\": true,\n    \"presentation\": {\n        \"layout\": \"one-column\"\n    },\n    \"fields\": [\n        {\n            \"name\": \"title\",\n            \"type\": \"String\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Title\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"displayType\": \"Simple\"\n            },\n            \"validations\": {\n                \"maxLength\": null\n            },\n            \"defaultValue\": [\n                \"A default title\"\n            ]\n        },\n        {\n            \"name\": \"calendardate\",\n            \"type\": \"Date\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Calendar Date\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"timeSelectable\": false\n            },\n            \"defaultValue\": [\n                \"2021-10-06T22:00:00Z\"\n            ]\n        }\n    ]\n}\n```\n\n and\n\n ```json\n{\n    \"name\": \"aFieldGroupWithFieldGroupType\",\n    \"type\": \"FieldGroup\",\n    \"enabled\": true,\n    \"presentation\": {\n        \"layout\": \"one-column\"\n    },\n    \"fields\": [\n        {\n            \"name\": \"title\",\n            \"type\": \"String\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Title\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"displayType\": \"Simple\"\n            },\n            \"validations\": {\n                \"maxLength\": null\n            },\n            \"defaultValue\": [\n                \"Top level title\"\n            ]\n        },\n        {\n            \"name\": \"aFieldGroupField\",\n            \"type\": \"FieldGroup\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"A FieldGroup field\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1\n            },\n            \"defaultValue\": [\n                {\n                    \"fields\": {\n                        \"title\": [\n                            \"A different default title\"\n                        ],\n                        \"calendardate\": [\n                            \"2022-02-08T23:00:00Z\"\n                        ]\n                    }\n                }\n            ],\n            \"fieldGroupType\": \"aFieldGroupType\"\n        }\n    ]\n}\n```",
+"value": {
+"name": "aTypeWithFieldGroups",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "one-column"
+},
+"fields": [
+{
+"name": "description",
+"type": "String",
+"required": false,
+"multiple": false,
+"presentation": {
+"caption": "Description",
+"hint": "",
+"layoutColumn": 1,
+"displayType": "Text"
+},
+"validations": {
+"maxRow": 3
+},
+"defaultValue": [
+"Some default description"
+]
+},
+{
+"name": "aFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupType",
+"presentation": {
+"caption": "A FieldGroup field",
+"hint": "Hint for FieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+}
+]
+},
+{
+"name": "aFieldGroupWithFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"presentation": {
+"caption": "A FieldGroupWithFieldGroup field",
+"hint": "Hint for FieldGroupWithFieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+},
+{
+"name": "aSelectableFieldGroupField",
+"type": "SelectableFieldGroup",
+"required": false,
+"multiple": true,
+"fieldGroupTypes": [
+"aFieldGroupType",
+"aFieldGroupWithFieldGroupType"
+],
+"presentation": {
+"caption": "A SelectableFieldGroup field",
+"hint": "Hint for SelectableFieldGroup field",
+"layoutColumn": 1,
+"contentPickerType": "links",
+"showFieldGroupNames": false
+},
+"validations": {
+"maxItem": 10
+},
+"defaultValue": [
+{
+"fieldGroupType": "aFieldGroupType",
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+},
+{
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+}
+}
+}
+}
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+},
+"put": {
+"tags": [
+"Content Type Operations"
+],
+"summary": "Create or update a content type",
+"operationId": "putContentType",
+"parameters": [
+{
+"name": "X-Resource-Version",
+"in": "header",
+"description": "Resource's version, as obtained when GETting the resource. The first time a resource is created, a empty value is expected (omit the header). Must be used in any subsequent update requests of this resource",
+"schema": {
+"type": "string"
+},
+"example": "433cc90445d29c2356e385b9efe548b19ed86739f27eb7958a81847b9d8517c2"
+},
+{
+"name": "project_id",
+"in": "path",
+"description": "Project specifier. Valid values: 'core', 'development'",
+"required": true,
+"schema": {
+"type": "string"
+},
+"example": "development"
+},
+{
+"name": "content_type_name",
+"in": "path",
+"description": "Name of content type",
+"required": true,
+"schema": {
+"type": "string"
+},
+"example": "banner"
+}
+],
+"requestBody": {
+"description": "Request examples",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ContentType"
+},
+"examples": {
+"A document type with common fields": {
+"description": "In this example, the following fields are used:\n* String (Simple, Text)\n* Date\n* Boolean (Checkbox)\n* Integer\n* Number\n* HTML\n* Rich Text\n",
+"value": {
+"name": "exampleDoctype",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "string",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "text",
+"required": true,
+"multiple": false,
+"type": "String",
+"defaultValue": [
+"Sample value text field"
+],
+"validations": {
+"maxRow": 10
+},
+"presentation": {
+"caption": "Text Field",
+"hint": "Hint for text field",
+"layoutColumn": 2,
+"displayType": "Text"
+}
+},
+{
+"name": "date",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T00:00:00.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": false
+}
+},
+{
+"name": "dateWithTime",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field with time",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+},
+{
+"name": "booleanChekbox",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+true
+],
+"presentation": {
+"caption": "Boolean Field",
+"hint": "Hint for boolean field",
+"layoutColumn": 1,
+"displayType": "Checkbox"
+}
+},
+{
+"name": "integer",
+"required": true,
+"type": "Integer",
+"defaultValue": [
+100
+],
+"presentation": {
+"caption": "Integer Field",
+"hint": "Hint for integer field",
+"layoutColumn": 2
+}
+},
+{
+"name": "number",
+"required": true,
+"multiple": true,
+"type": "Number",
+"defaultValue": [
+100.34,
+2.2
+],
+"presentation": {
+"caption": "Number Field",
+"hint": "Hint for number field",
+"layoutColumn": 2
+}
+},
+{
+"name": "html",
+"required": true,
+"type": "Html",
+"defaultValue": [
+"<p>Sample content html field</p>"
+],
+"presentation": {
+"caption": "Html Field",
+"hint": "Hint for html field",
+"layoutColumn": 2,
+"ckEditorAppendedJson": "{\n  \"keystrokes\":[[88,\"showblocks\"]],\n  \"plugins\":\"colorbutton\"\n}",
+"ckEditorOverlayedJson": "{\n  \"codemirror\": {\n    \"autoFormatOnStart\": false\n  },\n  \"ignoreEmptyParagraph\": true\n}"
+}
+},
+{
+"name": "richText",
+"required": false,
+"type": "RichText",
+"defaultValue": [
+"<p>Sample content rich text field</p>"
+],
+"presentation": {
+"caption": "Content",
+"hint": "Hint for rich text field",
+"layoutColumn": 1,
+"imagepickerType": "images",
+"imagepickerNodetypes": [
+"folder",
+"banner"
+],
+"imagepickerLastVisitedEnabled": true,
+"imagepickerLastVisitedGroupKey": "ckeditor-imagepicker",
+"imagepickerLastVisitedNodetypes": [
+"gallery",
+"banner"
+],
+"imagepickerPreferredImageVariant": "original",
+"imagepickerBasePath": "/content/gallery/brxsaas/images",
+"linkpickerType": "documents",
+"linkpickerNodetypes": [
+"folder",
+"banner"
+],
+"linkpickerLastVisitedEnabled": true,
+"linkpickerLastVisitedGroupKey": "ckeditor-linkpicker",
+"linkpickerLastVisitedNodetypes": [
+"folder"
+],
+"linkPickerLanguageContextAware": true,
+"linkPickerOpenInNewWindowEnabled": true
+}
+}
+]
+}
+},
+"A document type with selectable fields": {
+"description": "In this example, the following fields are used:\n* SelectableString (Dropdown, RadioGroup, MultiSelect)\n* Boolean (Radiogroup)\n\nNote: when running this example, make sure that resource bundle documents with the following IDs exist: 'brsm.example.bundle', 'boolean.resource.bundle'. Not doing so results in an error (resource bundle not found)",
+"value": {
+"name": "exampleDoctypeWithSelections",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "dropdownWithResourceBundle",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Dynamic dropdown field",
+"hint": "Hint for dynamic dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown",
+"sortOrder": "ascending",
+"sortBy": "key",
+"showDefault": true
+}
+},
+{
+"name": "dropdownWithStaticValues",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"01"
+],
+"validations": {
+"inValues": [
+{
+"key": "01",
+"label": "New"
+},
+{
+"key": "02",
+"label": "Open"
+},
+{
+"key": "03",
+"label": "Closed"
+}
+]
+},
+"presentation": {
+"caption": "Static dropdown Field",
+"hint": "Hint for dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown"
+}
+},
+{
+"name": "radiogroup",
+"required": true,
+"type": "SelectableString",
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radio group field",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "horizontal"
+}
+},
+{
+"name": "radiogroupOnBoolean",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inResourceBundle": "boolean.resource.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "vertical"
+}
+},
+{
+"name": "staticRadiogroupOnBoolean",
+"required": false,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inValues": [
+"Open",
+"Closed"
+]
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for static radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup"
+}
+},
+{
+"name": "multiselectfieldWithResourceBundle",
+"required": true,
+"multiple": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1",
+"key2"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Multiselect field",
+"hint": "Hint for mmultiselect field with resource bundle",
+"layoutColumn": 1,
+"displayType": "MultiSelect",
+"multiSelectType": "selectlist",
+"maxRowWithoutScrollbar": 2,
+"multiSelectAllowOrder": true
+}
+}
+]
+}
+},
+"A document type with linking fields": {
+"description": "In this example, the following fields are used:\n* Link (ImageLink, AnyLink)\n* EmbeddedResource\n",
+"value": {
+"name": "exampleDoctypeWithLinks",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "imageLink",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/"
+],
+"presentation": {
+"caption": "Image",
+"hint": "Hint for image link field",
+"layoutColumn": 1,
+"displayType": "ImageLink",
+"lastVisitedKey": "gallerypicker-imagelink",
+"lastVisitedEnabled": true,
+"uploadEnabled": true
+}
+},
+{
+"name": "link",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/content/documents/brxsaas/pages/about"
+],
+"presentation": {
+"caption": "Link",
+"hint": "Hint for link field",
+"layoutColumn": 2,
+"displayType": "AnyLink",
+"lookupFolderPath": "/content/documents/brxsaas/banners",
+"lookupFolderTypes": [
+"folder"
+],
+"lastVisitedNodetypes": [
+"folder"
+],
+"lastVisitedEnabled": true,
+"languageContextAware": true,
+"pickerType": "documents"
+}
+},
+{
+"name": "resource",
+"required": true,
+"type": "EmbeddedResource",
+"defaultValue": [
+{
+"filename": "hippo:resource",
+"binarydata": "/9j/4AAQSkZJRgABAQAAFAAUAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAAAUAAAAAQAAABQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAigAwAEAAAAAQAAAAUAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAAUACAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEAAH/2gAMAwEAAhEDEQA/APrD4kfAXwl46KapdRwm7uHw0l9b/bDHkjPlFmDRjAxtB289OueI/wCGPPB3/P3p3/gmT/45X0Hdf8eVr/11FNrCtlmGrTc5J38pSX4JpG1PGVYxS0frGLf3tNn/2Q==",
+"mimeType": "application/json"
+}
+],
+"presentation": {
+"caption": "Resource Field",
+"hint": "Hint for resource field",
+"layoutColumn": 2
+}
+}
+]
+}
+},
+"A fieldgroup type": {
+"description": "In this example a fieldgroup type is created",
+"value": {
+"name": "exampleFieldGroupType",
+"type": "FieldGroup",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "stringField",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "dateField",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+}
+]
+}
+},
+"A document type with other field types": {
+"description": "In this example, the following fields are used:\n* Taxonomy\n* Open UI String\n\nNote: when running this example, make sure that a taxonomy with name 'testTaxonomy' already exists. Not doing so results in an error (taxonomy not found)",
+"value": {
+"name": "exampleDoctypeOthers",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "taxonomyField",
+"required": true,
+"multiple": true,
+"type": "Taxonomy",
+"defaultValue": [
+"category1"
+],
+"validations": {
+"inTaxonomy": "testTaxonomy"
+},
+"presentation": {
+"caption": "Taxonomy Field",
+"hint": "Hint for Taxonomy field",
+"layoutColumn": 2
+}
+},
+{
+"name": "openuiField",
+"required": true,
+"multiple": true,
+"type": "OpenUiExtension",
+"presentation": {
+"caption": "openui Field",
+"hint": "Hint for OpenUi field",
+"layoutColumn": 2,
+"extensionType": "commerceProductPicker"
+}
+}
+]
+}
+},
+"A document type with field groups": {
+"description": "In this example, the following fields are used:\n* Fieldgroup\n* Selectable Fieldgroup\n\nThe example uses the following 2 fieldgroup types:\n\n```json\n{\n    \"name\": \"aFieldGroupType\",\n    \"type\": \"FieldGroup\",\n    \"enabled\": true,\n    \"presentation\": {\n        \"layout\": \"one-column\"\n    },\n    \"fields\": [\n        {\n            \"name\": \"title\",\n            \"type\": \"String\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Title\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"displayType\": \"Simple\"\n            },\n            \"validations\": {\n                \"maxLength\": null\n            },\n            \"defaultValue\": [\n                \"A default title\"\n            ]\n        },\n        {\n            \"name\": \"calendardate\",\n            \"type\": \"Date\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Calendar Date\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"timeSelectable\": false\n            },\n            \"defaultValue\": [\n                \"2021-10-06T22:00:00Z\"\n            ]\n        }\n    ]\n}\n```\n\n and\n\n ```json\n{\n    \"name\": \"aFieldGroupWithFieldGroupType\",\n    \"type\": \"FieldGroup\",\n    \"enabled\": true,\n    \"presentation\": {\n        \"layout\": \"one-column\"\n    },\n    \"fields\": [\n        {\n            \"name\": \"title\",\n            \"type\": \"String\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Title\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"displayType\": \"Simple\"\n            },\n            \"validations\": {\n                \"maxLength\": null\n            },\n            \"defaultValue\": [\n                \"Top level title\"\n            ]\n        },\n        {\n            \"name\": \"aFieldGroupField\",\n            \"type\": \"FieldGroup\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"A FieldGroup field\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1\n            },\n            \"defaultValue\": [\n                {\n                    \"fields\": {\n                        \"title\": [\n                            \"A different default title\"\n                        ],\n                        \"calendardate\": [\n                            \"2022-02-08T23:00:00Z\"\n                        ]\n                    }\n                }\n            ],\n            \"fieldGroupType\": \"aFieldGroupType\"\n        }\n    ]\n}\n```",
+"value": {
+"name": "aTypeWithFieldGroups",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "one-column"
+},
+"fields": [
+{
+"name": "description",
+"type": "String",
+"required": false,
+"multiple": false,
+"presentation": {
+"caption": "Description",
+"hint": "",
+"layoutColumn": 1,
+"displayType": "Text"
+},
+"validations": {
+"maxRow": 3
+},
+"defaultValue": [
+"Some default description"
+]
+},
+{
+"name": "aFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupType",
+"presentation": {
+"caption": "A FieldGroup field",
+"hint": "Hint for FieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+}
+]
+},
+{
+"name": "aFieldGroupWithFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"presentation": {
+"caption": "A FieldGroupWithFieldGroup field",
+"hint": "Hint for FieldGroupWithFieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+},
+{
+"name": "aSelectableFieldGroupField",
+"type": "SelectableFieldGroup",
+"required": false,
+"multiple": true,
+"fieldGroupTypes": [
+"aFieldGroupType",
+"aFieldGroupWithFieldGroupType"
+],
+"presentation": {
+"caption": "A SelectableFieldGroup field",
+"hint": "Hint for SelectableFieldGroup field",
+"layoutColumn": 1,
+"contentPickerType": "links",
+"showFieldGroupNames": false
+},
+"validations": {
+"maxItem": 10
+},
+"defaultValue": [
+{
+"fieldGroupType": "aFieldGroupType",
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+},
+{
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+}
+]
+}
+}
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "OK",
+"headers": {
+"X-Resource-Version": {
+"description": "Resource's version. Must be used in any subsequent update requests of this resource",
+"style": "simple",
+"schema": {
+"type": "string"
+}
+}
+},
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ContentType"
+},
+"examples": {
+"A document type with common fields": {
+"description": "In this example, the following fields are used:\n* String (Simple, Text)\n* Date\n* Boolean (Checkbox)\n* Integer\n* Number\n* HTML\n* Rich Text\n",
+"value": {
+"name": "exampleDoctype",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "string",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "text",
+"required": true,
+"multiple": false,
+"type": "String",
+"defaultValue": [
+"Sample value text field"
+],
+"validations": {
+"maxRow": 10
+},
+"presentation": {
+"caption": "Text Field",
+"hint": "Hint for text field",
+"layoutColumn": 2,
+"displayType": "Text"
+}
+},
+{
+"name": "date",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T00:00:00.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": false
+}
+},
+{
+"name": "dateWithTime",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field with time",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+},
+{
+"name": "booleanChekbox",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+true
+],
+"presentation": {
+"caption": "Boolean Field",
+"hint": "Hint for boolean field",
+"layoutColumn": 1,
+"displayType": "Checkbox"
+}
+},
+{
+"name": "integer",
+"required": true,
+"type": "Integer",
+"defaultValue": [
+100
+],
+"presentation": {
+"caption": "Integer Field",
+"hint": "Hint for integer field",
+"layoutColumn": 2
+}
+},
+{
+"name": "number",
+"required": true,
+"multiple": true,
+"type": "Number",
+"defaultValue": [
+100.34,
+2.2
+],
+"presentation": {
+"caption": "Number Field",
+"hint": "Hint for number field",
+"layoutColumn": 2
+}
+},
+{
+"name": "html",
+"required": true,
+"type": "Html",
+"defaultValue": [
+"<p>Sample content html field</p>"
+],
+"presentation": {
+"caption": "Html Field",
+"hint": "Hint for html field",
+"layoutColumn": 2,
+"ckEditorAppendedJson": "{\n  \"keystrokes\":[[88,\"showblocks\"]],\n  \"plugins\":\"colorbutton\"\n}",
+"ckEditorOverlayedJson": "{\n  \"codemirror\": {\n    \"autoFormatOnStart\": false\n  },\n  \"ignoreEmptyParagraph\": true\n}"
+}
+},
+{
+"name": "richText",
+"required": false,
+"type": "RichText",
+"defaultValue": [
+"<p>Sample content rich text field</p>"
+],
+"presentation": {
+"caption": "Content",
+"hint": "Hint for rich text field",
+"layoutColumn": 1,
+"imagepickerType": "images",
+"imagepickerNodetypes": [
+"folder",
+"banner"
+],
+"imagepickerLastVisitedEnabled": true,
+"imagepickerLastVisitedGroupKey": "ckeditor-imagepicker",
+"imagepickerLastVisitedNodetypes": [
+"gallery",
+"banner"
+],
+"imagepickerPreferredImageVariant": "original",
+"imagepickerBasePath": "/content/gallery/brxsaas/images",
+"linkpickerType": "documents",
+"linkpickerNodetypes": [
+"folder",
+"banner"
+],
+"linkpickerLastVisitedEnabled": true,
+"linkpickerLastVisitedGroupKey": "ckeditor-linkpicker",
+"linkpickerLastVisitedNodetypes": [
+"folder"
+],
+"linkPickerLanguageContextAware": true,
+"linkPickerOpenInNewWindowEnabled": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with selectable fields": {
+"description": "In this example, the following fields are used:\n* SelectableString (Dropdown, RadioGroup, MultiSelect)\n* Boolean (Radiogroup)\n\nNote: when running this example, make sure that resource bundle documents with the following IDs exist: 'brsm.example.bundle', 'boolean.resource.bundle'. Not doing so results in an error (resource bundle not found)",
+"value": {
+"name": "exampleDoctypeWithSelections",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "dropdownWithResourceBundle",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Dynamic dropdown field",
+"hint": "Hint for dynamic dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown",
+"sortOrder": "ascending",
+"sortBy": "key",
+"showDefault": true
+}
+},
+{
+"name": "dropdownWithStaticValues",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"01"
+],
+"validations": {
+"inValues": [
+{
+"key": "01",
+"label": "New"
+},
+{
+"key": "02",
+"label": "Open"
+},
+{
+"key": "03",
+"label": "Closed"
+}
+]
+},
+"presentation": {
+"caption": "Static dropdown Field",
+"hint": "Hint for dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown"
+}
+},
+{
+"name": "radiogroup",
+"required": true,
+"type": "SelectableString",
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radio group field",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "horizontal"
+}
+},
+{
+"name": "radiogroupOnBoolean",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inResourceBundle": "boolean.resource.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "vertical"
+}
+},
+{
+"name": "staticRadiogroupOnBoolean",
+"required": false,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inValues": [
+"Open",
+"Closed"
+]
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for static radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup"
+}
+},
+{
+"name": "multiselectfieldWithResourceBundle",
+"required": true,
+"multiple": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1",
+"key2"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Multiselect field",
+"hint": "Hint for mmultiselect field with resource bundle",
+"layoutColumn": 1,
+"displayType": "MultiSelect",
+"multiSelectType": "selectlist",
+"maxRowWithoutScrollbar": 2,
+"multiSelectAllowOrder": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with linking fields": {
+"description": "In this example, the following fields are used:\n* Link (ImageLink, AnyLink)\n* EmbeddedResource\n",
+"value": {
+"name": "exampleDoctypeWithLinks",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "imageLink",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/"
+],
+"presentation": {
+"caption": "Image",
+"hint": "Hint for image link field",
+"layoutColumn": 1,
+"displayType": "ImageLink",
+"lastVisitedKey": "gallerypicker-imagelink",
+"lastVisitedEnabled": true,
+"uploadEnabled": true
+}
+},
+{
+"name": "link",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/content/documents/brxsaas/pages/about"
+],
+"presentation": {
+"caption": "Link",
+"hint": "Hint for link field",
+"layoutColumn": 2,
+"displayType": "AnyLink",
+"lookupFolderPath": "/content/documents/brxsaas/banners",
+"lookupFolderTypes": [
+"folder"
+],
+"lastVisitedNodetypes": [
+"folder"
+],
+"lastVisitedEnabled": true,
+"languageContextAware": true,
+"pickerType": "documents"
+}
+},
+{
+"name": "resource",
+"required": true,
+"type": "EmbeddedResource",
+"defaultValue": [
+{
+"filename": "hippo:resource",
+"binarydata": "/9j/4AAQSkZJRgABAQAAFAAUAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAAAUAAAAAQAAABQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAigAwAEAAAAAQAAAAUAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAAUACAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEAAH/2gAMAwEAAhEDEQA/APrD4kfAXwl46KapdRwm7uHw0l9b/bDHkjPlFmDRjAxtB289OueI/wCGPPB3/P3p3/gmT/45X0Hdf8eVr/11FNrCtlmGrTc5J38pSX4JpG1PGVYxS0frGLf3tNn/2Q==",
+"mimeType": "application/json"
+}
+],
+"presentation": {
+"caption": "Resource Field",
+"hint": "Hint for resource field",
+"layoutColumn": 2
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A fieldgroup type": {
+"description": "In this example a fieldgroup type is created",
+"value": {
+"name": "exampleFieldGroupType",
+"type": "FieldGroup",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "stringField",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "dateField",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with other field types": {
+"description": "In this example, the following fields are used:\n* Taxonomy\n* Open UI String\n\nNote: when running this example, make sure that a taxonomy with name 'testTaxonomy' already exists. Not doing so results in an error (taxonomy not found)",
+"value": {
+"name": "exampleDoctypeOthers",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "taxonomyField",
+"required": true,
+"multiple": true,
+"type": "Taxonomy",
+"defaultValue": [
+"category1"
+],
+"validations": {
+"inTaxonomy": "testTaxonomy"
+},
+"presentation": {
+"caption": "Taxonomy Field",
+"hint": "Hint for Taxonomy field",
+"layoutColumn": 2
+}
+},
+{
+"name": "openuiField",
+"required": true,
+"multiple": true,
+"type": "OpenUiExtension",
+"presentation": {
+"caption": "openui Field",
+"hint": "Hint for OpenUi field",
+"layoutColumn": 2,
+"extensionType": "commerceProductPicker"
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with field groups": {
+"description": "In this example, the following fields are used:\n* Fieldgroup\n* Selectable Fieldgroup\n\nThe example uses the following 2 fieldgroup types:\n\n```json\n{\n    \"name\": \"aFieldGroupType\",\n    \"type\": \"FieldGroup\",\n    \"enabled\": true,\n    \"presentation\": {\n        \"layout\": \"one-column\"\n    },\n    \"fields\": [\n        {\n            \"name\": \"title\",\n            \"type\": \"String\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Title\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"displayType\": \"Simple\"\n            },\n            \"validations\": {\n                \"maxLength\": null\n            },\n            \"defaultValue\": [\n                \"A default title\"\n            ]\n        },\n        {\n            \"name\": \"calendardate\",\n            \"type\": \"Date\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Calendar Date\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"timeSelectable\": false\n            },\n            \"defaultValue\": [\n                \"2021-10-06T22:00:00Z\"\n            ]\n        }\n    ]\n}\n```\n\n and\n\n ```json\n{\n    \"name\": \"aFieldGroupWithFieldGroupType\",\n    \"type\": \"FieldGroup\",\n    \"enabled\": true,\n    \"presentation\": {\n        \"layout\": \"one-column\"\n    },\n    \"fields\": [\n        {\n            \"name\": \"title\",\n            \"type\": \"String\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Title\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"displayType\": \"Simple\"\n            },\n            \"validations\": {\n                \"maxLength\": null\n            },\n            \"defaultValue\": [\n                \"Top level title\"\n            ]\n        },\n        {\n            \"name\": \"aFieldGroupField\",\n            \"type\": \"FieldGroup\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"A FieldGroup field\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1\n            },\n            \"defaultValue\": [\n                {\n                    \"fields\": {\n                        \"title\": [\n                            \"A different default title\"\n                        ],\n                        \"calendardate\": [\n                            \"2022-02-08T23:00:00Z\"\n                        ]\n                    }\n                }\n            ],\n            \"fieldGroupType\": \"aFieldGroupType\"\n        }\n    ]\n}\n```",
+"value": {
+"name": "aTypeWithFieldGroups",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "one-column"
+},
+"fields": [
+{
+"name": "description",
+"type": "String",
+"required": false,
+"multiple": false,
+"presentation": {
+"caption": "Description",
+"hint": "",
+"layoutColumn": 1,
+"displayType": "Text"
+},
+"validations": {
+"maxRow": 3
+},
+"defaultValue": [
+"Some default description"
+]
+},
+{
+"name": "aFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupType",
+"presentation": {
+"caption": "A FieldGroup field",
+"hint": "Hint for FieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+}
+]
+},
+{
+"name": "aFieldGroupWithFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"presentation": {
+"caption": "A FieldGroupWithFieldGroup field",
+"hint": "Hint for FieldGroupWithFieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+},
+{
+"name": "aSelectableFieldGroupField",
+"type": "SelectableFieldGroup",
+"required": false,
+"multiple": true,
+"fieldGroupTypes": [
+"aFieldGroupType",
+"aFieldGroupWithFieldGroupType"
+],
+"presentation": {
+"caption": "A SelectableFieldGroup field",
+"hint": "Hint for SelectableFieldGroup field",
+"layoutColumn": 1,
+"contentPickerType": "links",
+"showFieldGroupNames": false
+},
+"validations": {
+"maxItem": 10
+},
+"defaultValue": [
+{
+"fieldGroupType": "aFieldGroupType",
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+},
+{
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+}
+}
+}
+}
+},
+"201": {
+"description": "Created",
+"headers": {
+"X-Resource-Version": {
+"description": "Resource's version. Must be used in any subsequent update requests of this resource",
+"style": "simple",
+"schema": {
+"type": "string"
+}
+}
+},
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ContentType"
+},
+"examples": {
+"A document type with common fields": {
+"description": "In this example, the following fields are used:\n* String (Simple, Text)\n* Date\n* Boolean (Checkbox)\n* Integer\n* Number\n* HTML\n* Rich Text\n",
+"value": {
+"name": "exampleDoctype",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "string",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "text",
+"required": true,
+"multiple": false,
+"type": "String",
+"defaultValue": [
+"Sample value text field"
+],
+"validations": {
+"maxRow": 10
+},
+"presentation": {
+"caption": "Text Field",
+"hint": "Hint for text field",
+"layoutColumn": 2,
+"displayType": "Text"
+}
+},
+{
+"name": "date",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T00:00:00.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": false
+}
+},
+{
+"name": "dateWithTime",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field with time",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+},
+{
+"name": "booleanChekbox",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+true
+],
+"presentation": {
+"caption": "Boolean Field",
+"hint": "Hint for boolean field",
+"layoutColumn": 1,
+"displayType": "Checkbox"
+}
+},
+{
+"name": "integer",
+"required": true,
+"type": "Integer",
+"defaultValue": [
+100
+],
+"presentation": {
+"caption": "Integer Field",
+"hint": "Hint for integer field",
+"layoutColumn": 2
+}
+},
+{
+"name": "number",
+"required": true,
+"multiple": true,
+"type": "Number",
+"defaultValue": [
+100.34,
+2.2
+],
+"presentation": {
+"caption": "Number Field",
+"hint": "Hint for number field",
+"layoutColumn": 2
+}
+},
+{
+"name": "html",
+"required": true,
+"type": "Html",
+"defaultValue": [
+"<p>Sample content html field</p>"
+],
+"presentation": {
+"caption": "Html Field",
+"hint": "Hint for html field",
+"layoutColumn": 2,
+"ckEditorAppendedJson": "{\n  \"keystrokes\":[[88,\"showblocks\"]],\n  \"plugins\":\"colorbutton\"\n}",
+"ckEditorOverlayedJson": "{\n  \"codemirror\": {\n    \"autoFormatOnStart\": false\n  },\n  \"ignoreEmptyParagraph\": true\n}"
+}
+},
+{
+"name": "richText",
+"required": false,
+"type": "RichText",
+"defaultValue": [
+"<p>Sample content rich text field</p>"
+],
+"presentation": {
+"caption": "Content",
+"hint": "Hint for rich text field",
+"layoutColumn": 1,
+"imagepickerType": "images",
+"imagepickerNodetypes": [
+"folder",
+"banner"
+],
+"imagepickerLastVisitedEnabled": true,
+"imagepickerLastVisitedGroupKey": "ckeditor-imagepicker",
+"imagepickerLastVisitedNodetypes": [
+"gallery",
+"banner"
+],
+"imagepickerPreferredImageVariant": "original",
+"imagepickerBasePath": "/content/gallery/brxsaas/images",
+"linkpickerType": "documents",
+"linkpickerNodetypes": [
+"folder",
+"banner"
+],
+"linkpickerLastVisitedEnabled": true,
+"linkpickerLastVisitedGroupKey": "ckeditor-linkpicker",
+"linkpickerLastVisitedNodetypes": [
+"folder"
+],
+"linkPickerLanguageContextAware": true,
+"linkPickerOpenInNewWindowEnabled": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with selectable fields": {
+"description": "In this example, the following fields are used:\n* SelectableString (Dropdown, RadioGroup, MultiSelect)\n* Boolean (Radiogroup)\n\nNote: when running this example, make sure that resource bundle documents with the following IDs exist: 'brsm.example.bundle', 'boolean.resource.bundle'. Not doing so results in an error (resource bundle not found)",
+"value": {
+"name": "exampleDoctypeWithSelections",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "dropdownWithResourceBundle",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Dynamic dropdown field",
+"hint": "Hint for dynamic dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown",
+"sortOrder": "ascending",
+"sortBy": "key",
+"showDefault": true
+}
+},
+{
+"name": "dropdownWithStaticValues",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"01"
+],
+"validations": {
+"inValues": [
+{
+"key": "01",
+"label": "New"
+},
+{
+"key": "02",
+"label": "Open"
+},
+{
+"key": "03",
+"label": "Closed"
+}
+]
+},
+"presentation": {
+"caption": "Static dropdown Field",
+"hint": "Hint for dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown"
+}
+},
+{
+"name": "radiogroup",
+"required": true,
+"type": "SelectableString",
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radio group field",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "horizontal"
+}
+},
+{
+"name": "radiogroupOnBoolean",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inResourceBundle": "boolean.resource.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "vertical"
+}
+},
+{
+"name": "staticRadiogroupOnBoolean",
+"required": false,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inValues": [
+"Open",
+"Closed"
+]
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for static radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup"
+}
+},
+{
+"name": "multiselectfieldWithResourceBundle",
+"required": true,
+"multiple": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1",
+"key2"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Multiselect field",
+"hint": "Hint for mmultiselect field with resource bundle",
+"layoutColumn": 1,
+"displayType": "MultiSelect",
+"multiSelectType": "selectlist",
+"maxRowWithoutScrollbar": 2,
+"multiSelectAllowOrder": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with linking fields": {
+"description": "In this example, the following fields are used:\n* Link (ImageLink, AnyLink)\n* EmbeddedResource\n",
+"value": {
+"name": "exampleDoctypeWithLinks",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "imageLink",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/"
+],
+"presentation": {
+"caption": "Image",
+"hint": "Hint for image link field",
+"layoutColumn": 1,
+"displayType": "ImageLink",
+"lastVisitedKey": "gallerypicker-imagelink",
+"lastVisitedEnabled": true,
+"uploadEnabled": true
+}
+},
+{
+"name": "link",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/content/documents/brxsaas/pages/about"
+],
+"presentation": {
+"caption": "Link",
+"hint": "Hint for link field",
+"layoutColumn": 2,
+"displayType": "AnyLink",
+"lookupFolderPath": "/content/documents/brxsaas/banners",
+"lookupFolderTypes": [
+"folder"
+],
+"lastVisitedNodetypes": [
+"folder"
+],
+"lastVisitedEnabled": true,
+"languageContextAware": true,
+"pickerType": "documents"
+}
+},
+{
+"name": "resource",
+"required": true,
+"type": "EmbeddedResource",
+"defaultValue": [
+{
+"filename": "hippo:resource",
+"binarydata": "/9j/4AAQSkZJRgABAQAAFAAUAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAAAUAAAAAQAAABQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAigAwAEAAAAAQAAAAUAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAAUACAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEAAH/2gAMAwEAAhEDEQA/APrD4kfAXwl46KapdRwm7uHw0l9b/bDHkjPlFmDRjAxtB289OueI/wCGPPB3/P3p3/gmT/45X0Hdf8eVr/11FNrCtlmGrTc5J38pSX4JpG1PGVYxS0frGLf3tNn/2Q==",
+"mimeType": "application/json"
+}
+],
+"presentation": {
+"caption": "Resource Field",
+"hint": "Hint for resource field",
+"layoutColumn": 2
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A fieldgroup type": {
+"description": "In this example a fieldgroup type is created",
+"value": {
+"name": "exampleFieldGroupType",
+"type": "FieldGroup",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "stringField",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "dateField",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with other field types": {
+"description": "In this example, the following fields are used:\n* Taxonomy\n* Open UI String\n\nNote: when running this example, make sure that a taxonomy with name 'testTaxonomy' already exists. Not doing so results in an error (taxonomy not found)",
+"value": {
+"name": "exampleDoctypeOthers",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "taxonomyField",
+"required": true,
+"multiple": true,
+"type": "Taxonomy",
+"defaultValue": [
+"category1"
+],
+"validations": {
+"inTaxonomy": "testTaxonomy"
+},
+"presentation": {
+"caption": "Taxonomy Field",
+"hint": "Hint for Taxonomy field",
+"layoutColumn": 2
+}
+},
+{
+"name": "openuiField",
+"required": true,
+"multiple": true,
+"type": "OpenUiExtension",
+"presentation": {
+"caption": "openui Field",
+"hint": "Hint for OpenUi field",
+"layoutColumn": 2,
+"extensionType": "commerceProductPicker"
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+},
+"A document type with field groups": {
+"description": "In this example, the following fields are used:\n* Fieldgroup\n* Selectable Fieldgroup\n\nThe example uses the following 2 fieldgroup types:\n\n```json\n{\n    \"name\": \"aFieldGroupType\",\n    \"type\": \"FieldGroup\",\n    \"enabled\": true,\n    \"presentation\": {\n        \"layout\": \"one-column\"\n    },\n    \"fields\": [\n        {\n            \"name\": \"title\",\n            \"type\": \"String\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Title\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"displayType\": \"Simple\"\n            },\n            \"validations\": {\n                \"maxLength\": null\n            },\n            \"defaultValue\": [\n                \"A default title\"\n            ]\n        },\n        {\n            \"name\": \"calendardate\",\n            \"type\": \"Date\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Calendar Date\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"timeSelectable\": false\n            },\n            \"defaultValue\": [\n                \"2021-10-06T22:00:00Z\"\n            ]\n        }\n    ]\n}\n```\n\n and\n\n ```json\n{\n    \"name\": \"aFieldGroupWithFieldGroupType\",\n    \"type\": \"FieldGroup\",\n    \"enabled\": true,\n    \"presentation\": {\n        \"layout\": \"one-column\"\n    },\n    \"fields\": [\n        {\n            \"name\": \"title\",\n            \"type\": \"String\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"Title\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1,\n                \"displayType\": \"Simple\"\n            },\n            \"validations\": {\n                \"maxLength\": null\n            },\n            \"defaultValue\": [\n                \"Top level title\"\n            ]\n        },\n        {\n            \"name\": \"aFieldGroupField\",\n            \"type\": \"FieldGroup\",\n            \"required\": false,\n            \"multiple\": false,\n            \"presentation\": {\n                \"caption\": \"A FieldGroup field\",\n                \"hint\": \"\",\n                \"layoutColumn\": 1\n            },\n            \"defaultValue\": [\n                {\n                    \"fields\": {\n                        \"title\": [\n                            \"A different default title\"\n                        ],\n                        \"calendardate\": [\n                            \"2022-02-08T23:00:00Z\"\n                        ]\n                    }\n                }\n            ],\n            \"fieldGroupType\": \"aFieldGroupType\"\n        }\n    ]\n}\n```",
+"value": {
+"name": "aTypeWithFieldGroups",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "one-column"
+},
+"fields": [
+{
+"name": "description",
+"type": "String",
+"required": false,
+"multiple": false,
+"presentation": {
+"caption": "Description",
+"hint": "",
+"layoutColumn": 1,
+"displayType": "Text"
+},
+"validations": {
+"maxRow": 3
+},
+"defaultValue": [
+"Some default description"
+]
+},
+{
+"name": "aFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupType",
+"presentation": {
+"caption": "A FieldGroup field",
+"hint": "Hint for FieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+}
+]
+},
+{
+"name": "aFieldGroupWithFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"presentation": {
+"caption": "A FieldGroupWithFieldGroup field",
+"hint": "Hint for FieldGroupWithFieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+},
+{
+"name": "aSelectableFieldGroupField",
+"type": "SelectableFieldGroup",
+"required": false,
+"multiple": true,
+"fieldGroupTypes": [
+"aFieldGroupType",
+"aFieldGroupWithFieldGroupType"
+],
+"presentation": {
+"caption": "A SelectableFieldGroup field",
+"hint": "Hint for SelectableFieldGroup field",
+"layoutColumn": 1,
+"contentPickerType": "links",
+"showFieldGroupNames": false
+},
+"validations": {
+"maxItem": 10
+},
+"defaultValue": [
+{
+"fieldGroupType": "aFieldGroupType",
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+},
+{
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+}
+}
+}
+}
+},
+"403": {
+"description": "Forbidden"
+}
+}
+}
+},
+"/{project_id}": {
+"get": {
+"tags": [
+"Content Type Operations"
+],
+"summary": "Get all content types",
+"operationId": "getContentTypes",
+"parameters": [
+{
+"name": "project_id",
+"in": "path",
+"description": "Project specifier. Valid values: 'core', 'development'",
+"required": true,
+"schema": {
+"type": "string"
+},
+"example": "development"
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"content": {
+"application/json": {
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/ContentType"
+}
+},
+"example": [
+{
+"name": "exampleDoctype",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "string",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "text",
+"required": true,
+"multiple": false,
+"type": "String",
+"defaultValue": [
+"Sample value text field"
+],
+"validations": {
+"maxRow": 10
+},
+"presentation": {
+"caption": "Text Field",
+"hint": "Hint for text field",
+"layoutColumn": 2,
+"displayType": "Text"
+}
+},
+{
+"name": "date",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T00:00:00.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": false
+}
+},
+{
+"name": "dateWithTime",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field with time",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+},
+{
+"name": "booleanChekbox",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+true
+],
+"presentation": {
+"caption": "Boolean Field",
+"hint": "Hint for boolean field",
+"layoutColumn": 1,
+"displayType": "Checkbox"
+}
+},
+{
+"name": "integer",
+"required": true,
+"type": "Integer",
+"defaultValue": [
+100
+],
+"presentation": {
+"caption": "Integer Field",
+"hint": "Hint for integer field",
+"layoutColumn": 2
+}
+},
+{
+"name": "number",
+"required": true,
+"multiple": true,
+"type": "Number",
+"defaultValue": [
+100.34,
+2.2
+],
+"presentation": {
+"caption": "Number Field",
+"hint": "Hint for number field",
+"layoutColumn": 2
+}
+},
+{
+"name": "html",
+"required": true,
+"type": "Html",
+"defaultValue": [
+"<p>Sample content html field</p>"
+],
+"presentation": {
+"caption": "Html Field",
+"hint": "Hint for html field",
+"layoutColumn": 2,
+"ckEditorAppendedJson": "{\n  \"keystrokes\":[[88,\"showblocks\"]],\n  \"plugins\":\"colorbutton\"\n}",
+"ckEditorOverlayedJson": "{\n  \"codemirror\": {\n    \"autoFormatOnStart\": false\n  },\n  \"ignoreEmptyParagraph\": true\n}"
+}
+},
+{
+"name": "richText",
+"required": false,
+"type": "RichText",
+"defaultValue": [
+"<p>Sample content rich text field</p>"
+],
+"presentation": {
+"caption": "Content",
+"hint": "Hint for rich text field",
+"layoutColumn": 1,
+"imagepickerType": "images",
+"imagepickerNodetypes": [
+"folder",
+"banner"
+],
+"imagepickerLastVisitedEnabled": true,
+"imagepickerLastVisitedGroupKey": "ckeditor-imagepicker",
+"imagepickerLastVisitedNodetypes": [
+"gallery",
+"banner"
+],
+"imagepickerPreferredImageVariant": "original",
+"imagepickerBasePath": "/content/gallery/brxsaas/images",
+"linkpickerType": "documents",
+"linkpickerNodetypes": [
+"folder",
+"banner"
+],
+"linkpickerLastVisitedEnabled": true,
+"linkpickerLastVisitedGroupKey": "ckeditor-linkpicker",
+"linkpickerLastVisitedNodetypes": [
+"folder"
+],
+"linkPickerLanguageContextAware": true,
+"linkPickerOpenInNewWindowEnabled": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+},
+{
+"name": "exampleDoctypeWithLinks",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "imageLink",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/"
+],
+"presentation": {
+"caption": "Image",
+"hint": "Hint for image link field",
+"layoutColumn": 1,
+"displayType": "ImageLink",
+"lastVisitedKey": "gallerypicker-imagelink",
+"lastVisitedEnabled": true,
+"uploadEnabled": true
+}
+},
+{
+"name": "link",
+"required": false,
+"type": "Link",
+"defaultValue": [
+"/content/documents/brxsaas/pages/about"
+],
+"presentation": {
+"caption": "Link",
+"hint": "Hint for link field",
+"layoutColumn": 2,
+"displayType": "AnyLink",
+"lookupFolderPath": "/content/documents/brxsaas/banners",
+"lookupFolderTypes": [
+"folder"
+],
+"lastVisitedNodetypes": [
+"folder"
+],
+"lastVisitedEnabled": true,
+"languageContextAware": true,
+"pickerType": "documents"
+}
+},
+{
+"name": "resource",
+"required": true,
+"type": "EmbeddedResource",
+"defaultValue": [
+{
+"filename": "hippo:resource",
+"binarydata": "/9j/4AAQSkZJRgABAQAAFAAUAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAAAUAAAAAQAAABQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAigAwAEAAAAAQAAAAUAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAAUACAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEAAH/2gAMAwEAAhEDEQA/APrD4kfAXwl46KapdRwm7uHw0l9b/bDHkjPlFmDRjAxtB289OueI/wCGPPB3/P3p3/gmT/45X0Hdf8eVr/11FNrCtlmGrTc5J38pSX4JpG1PGVYxS0frGLf3tNn/2Q==",
+"mimeType": "application/json"
+}
+],
+"presentation": {
+"caption": "Resource Field",
+"hint": "Hint for resource field",
+"layoutColumn": 2
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+},
+{
+"name": "exampleDoctypeWithSelections",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "dropdownWithResourceBundle",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Dynamic dropdown field",
+"hint": "Hint for dynamic dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown",
+"sortOrder": "ascending",
+"sortBy": "key",
+"showDefault": true
+}
+},
+{
+"name": "dropdownWithStaticValues",
+"required": true,
+"type": "SelectableString",
+"defaultValue": [
+"01"
+],
+"validations": {
+"inValues": [
+{
+"key": "01",
+"label": "New"
+},
+{
+"key": "02",
+"label": "Open"
+},
+{
+"key": "03",
+"label": "Closed"
+}
+]
+},
+"presentation": {
+"caption": "Static dropdown Field",
+"hint": "Hint for dropdown field",
+"layoutColumn": 1,
+"displayType": "Dropdown"
+}
+},
+{
+"name": "radiogroup",
+"required": true,
+"type": "SelectableString",
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radio group field",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "horizontal"
+}
+},
+{
+"name": "radiogroupOnBoolean",
+"required": true,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inResourceBundle": "boolean.resource.bundle"
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup",
+"orientation": "vertical"
+}
+},
+{
+"name": "staticRadiogroupOnBoolean",
+"required": false,
+"type": "Boolean",
+"defaultValue": [
+"false"
+],
+"validations": {
+"inValues": [
+"Open",
+"Closed"
+]
+},
+"presentation": {
+"caption": "Radiogroup field",
+"hint": "Hint for static radiogroup field on boolean",
+"layoutColumn": 1,
+"displayType": "RadioGroup"
+}
+},
+{
+"name": "multiselectfieldWithResourceBundle",
+"required": true,
+"multiple": true,
+"type": "SelectableString",
+"defaultValue": [
+"key1",
+"key2"
+],
+"validations": {
+"inResourceBundle": "brsm.example.bundle"
+},
+"presentation": {
+"caption": "Multiselect field",
+"hint": "Hint for mmultiselect field with resource bundle",
+"layoutColumn": 1,
+"displayType": "MultiSelect",
+"multiSelectType": "selectlist",
+"maxRowWithoutScrollbar": 2,
+"multiSelectAllowOrder": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+},
+{
+"name": "exampleFieldGroupType",
+"type": "FieldGroup",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "stringField",
+"required": true,
+"multiple": true,
+"type": "String",
+"defaultValue": [
+"Blogtitle1",
+"Blogtitle2"
+],
+"validations": {
+"maxLength": 10
+},
+"presentation": {
+"caption": "Title",
+"hint": "Hint for string field",
+"layoutColumn": 1,
+"displayType": "Simple"
+}
+},
+{
+"name": "dateField",
+"required": true,
+"type": "Date",
+"defaultValue": [
+"2007-12-03T10:15:30.00Z"
+],
+"presentation": {
+"caption": "Date Field",
+"hint": "Hint for date field",
+"layoutColumn": 2,
+"timeSelectable": true
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+},
+{
+"name": "exampleDoctypeOthers",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "two-column"
+},
+"fields": [
+{
+"name": "taxonomyField",
+"required": true,
+"multiple": true,
+"type": "Taxonomy",
+"defaultValue": [
+"category1"
+],
+"validations": {
+"inTaxonomy": "testTaxonomy"
+},
+"presentation": {
+"caption": "Taxonomy Field",
+"hint": "Hint for Taxonomy field",
+"layoutColumn": 2
+}
+},
+{
+"name": "openuiField",
+"required": true,
+"multiple": true,
+"type": "OpenUiExtension",
+"presentation": {
+"caption": "openui Field",
+"hint": "Hint for OpenUi field",
+"layoutColumn": 2,
+"extensionType": "commerceProductPicker"
+}
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+},
+{
+"name": "aTypeWithFieldGroups",
+"type": "Document",
+"enabled": true,
+"presentation": {
+"layout": "one-column"
+},
+"fields": [
+{
+"name": "description",
+"type": "String",
+"required": false,
+"multiple": false,
+"presentation": {
+"caption": "Description",
+"hint": "",
+"layoutColumn": 1,
+"displayType": "Text"
+},
+"validations": {
+"maxRow": 3
+},
+"defaultValue": [
+"Some default description"
+]
+},
+{
+"name": "aFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupType",
+"presentation": {
+"caption": "A FieldGroup field",
+"hint": "Hint for FieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+}
+]
+},
+{
+"name": "aFieldGroupWithFieldGroupField",
+"type": "FieldGroup",
+"required": false,
+"multiple": false,
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"presentation": {
+"caption": "A FieldGroupWithFieldGroup field",
+"hint": "Hint for FieldGroupWithFieldGroup field",
+"layoutColumn": 1
+},
+"defaultValue": [
+{
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+},
+{
+"name": "aSelectableFieldGroupField",
+"type": "SelectableFieldGroup",
+"required": false,
+"multiple": true,
+"fieldGroupTypes": [
+"aFieldGroupType",
+"aFieldGroupWithFieldGroupType"
+],
+"presentation": {
+"caption": "A SelectableFieldGroup field",
+"hint": "Hint for SelectableFieldGroup field",
+"layoutColumn": 1,
+"contentPickerType": "links",
+"showFieldGroupNames": false
+},
+"validations": {
+"maxItem": 10
+},
+"defaultValue": [
+{
+"fieldGroupType": "aFieldGroupType",
+"fields": {
+"title": [
+"A default title"
+],
+"calendardate": [
+"2021-10-06T22:00:00Z"
+]
+}
+},
+{
+"fieldGroupType": "aFieldGroupWithFieldGroupType",
+"fields": {
+"aFieldGroupField": [
+{
+"fields": {
+"title": [
+"A different default title"
+],
+"calendardate": [
+"2022-02-08T23:00:00Z"
+]
+}
+}
+],
+"title": [
+"Top level title"
+]
+}
+}
+]
+}
+],
+"system": {
+"createdBy": "admin",
+"createdAt": "2021-10-01T15:16:14.146+02:00",
+"updatedBy": "admin",
+"updatedAt": "2021-10-01T15:16:14.22+02:00"
+}
+}
+]
+}
+}
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+}
+}
+},
+"components": {
+"schemas": {
+"ContentType": {
+"required": [
+"name",
+"presentation",
+"type"
+],
+"type": "object",
+"properties": {
+"name": {
+"type": "string",
+"description": "identifying name of this Content type"
+},
+"enabled": {
+"type": "boolean",
+"description": "whether the content type is enabled, true by default"
+},
+"type": {
+"type": "string",
+"description": "the type of the content type (eg Document, FieldGroup). Valid values: Document, FieldGroup.",
+"enum": [
+"Document",
+"FieldGroup"
+]
+},
+"presentation": {
+"$ref": "#/components/schemas/ContentTypePresentation"
+},
+"fields": {
+"type": "array",
+"description": "list of fields of this content type",
+"items": {
+"$ref": "#/components/schemas/ContentTypeField"
+}
+},
+"system": {
+"$ref": "#/components/schemas/System"
+}
+},
+"description": "Content type is a generic term indicating a definition of a class of content items. Document types and FieldGroup types are all content types. See [official documentation](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-types.html)"
+},
+"ContentTypePresentation": {
+"required": [
+"layout"
+],
+"type": "object",
+"properties": {
+"displayName": {
+"type": "string",
+"description": "The display name of the content type. The default value is the name of the content type. A display name is single-line plain text and may contain spaces and special characters."
+},
+"layout": {
+"type": "string",
+"description": "Layout specification for the fields of the document or fieldgroup type. Valid values: one-column, two-column, three-column, horizontal, two-column-mirrored.",
+"enum": [
+"one-column",
+"two-column",
+"three-column",
+"horizontal",
+"two-column-mirrored"
+]
+}
+},
+"description": "specifies presentation properties of the content type. See [official documentation](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-types.html)"
+},
+"ContentTypeField": {
+"required": [
+"name",
+"presentation",
+"type"
+],
+"type": "object",
+"properties": {
+"name": {
+"pattern": "^[A-Za-z0-9_]*",
+"type": "string",
+"description": "identifying name of this field within its content type"
+},
+"type": {
+"type": "string",
+"description": "the type of the field. Valid values: String, Boolean, Integer, Number, Text, Date, Html, RichText, Link, EmbeddedResource, Taxonomy, FieldGroup, GroupOfFieldGroups, OpenUiExtension.",
+"enum": [
+"String",
+"Boolean",
+"Integer",
+"Number",
+"Date",
+"SelectableString",
+"Html",
+"RichText",
+"Link",
+"EmbeddedResource",
+"Taxonomy",
+"FieldGroup",
+"SelectableFieldGroup",
+"OpenUiExtension"
+]
+},
+"required": {
+"type": "boolean",
+"description": "A field can be made required by setting this property to true. Authors can't save documents if they haven't entered a value in a required field. Defaults to false"
+},
+"multiple": {
+"type": "boolean",
+"description": "A field can be made multi-valued by setting this property to true. This adds plus and minus icons to the field so authors can add or remove values. Defaults to false"
+},
+"presentation": {
+"$ref": "#/components/schemas/ContentTypeFieldPresentation"
+},
+"validations": {
+"$ref": "#/components/schemas/ContentTypeFieldValidations"
+},
+"defaultValue": {
+"type": "array",
+"description": "default value of this field",
+"items": {
+"$ref": "#/components/schemas/FieldValue"
+}
+}
+},
+"description": "Document and FieldGroup types are comprised of a number of different types of fields. See [official documentation](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html)",
+"discriminator": {
+"propertyName": "type"
+},
+"oneOf": [
+{
+"$ref": "#/components/schemas/FieldGroupContentTypeField"
+},
+{
+"$ref": "#/components/schemas/SelectableFieldGroupContentTypeField"
+}
+]
+},
+"ContentTypeFieldPresentation": {
+"required": [
+"caption",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+}
+},
+"description": "specifies presentation properties of the field.\nSee [official documentation](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html)",
+"oneOf": [
+{
+"$ref": "#/components/schemas/StringFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/BooleanRadioGroupFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/CheckboxFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/LinkFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/ImageLinkFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/DateFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/HtmlFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/RichTextFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/DropdownFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/MultiSelectFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/RadioGroupFieldPresentation"
+},
+{
+"$ref": "#/components/schemas/SelectableFieldGroupPresentation"
+},
+{
+"$ref": "#/components/schemas/OpenUiExtensionFieldPresentation"
+}
+]
+},
+"ContentTypeFieldValidations": {
+"type": "object",
+"description": "validations of the field. Provides configuration for the field",
+"oneOf": [
+{
+"$ref": "#/components/schemas/StringSimpleFieldValidations"
+},
+{
+"$ref": "#/components/schemas/TextFieldValidations"
+},
+{
+"$ref": "#/components/schemas/BooleanRadioGroupFieldValidations"
+},
+{
+"$ref": "#/components/schemas/DropdownFieldValidations"
+},
+{
+"$ref": "#/components/schemas/MultiSelectAndRadioGroupFieldsValidations"
+},
+{
+"$ref": "#/components/schemas/SelectableFieldGroupFieldValidations"
+},
+{
+"$ref": "#/components/schemas/TaxonomyFieldValidations"
+}
+]
+},
+"FieldValue": {
+"type": "object",
+"description": "Value of a field",
+"oneOf": [
+{
+"type": "string"
+},
+{
+"type": "boolean"
+},
+{
+"type": "integer",
+"format": "int64"
+},
+{
+"type": "number",
+"format": "double"
+},
+{
+"$ref": "#/components/schemas/EmbeddedResourceFieldValue"
+},
+{
+"$ref": "#/components/schemas/SelectableFieldGroupFieldValue"
+},
+{
+"$ref": "#/components/schemas/FieldGroupFieldValue"
+}
+]
+},
+"BooleanRadioGroupFieldPresentation": {
+"required": [
+"caption",
+"displayType",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"displayType": {
+"type": "string",
+"description": "display type of the field. Valid values: Checkbox, RadioGroup",
+"enum": [
+"Simple",
+"Text",
+"Checkbox",
+"RadioGroup",
+"Dropdown",
+"MultiSelect",
+"AnyLink",
+"ImageLink"
+]
+},
+"orientation": {
+"type": "string",
+"description": "orientation type of the field. Valid values: horizontal, vertical. Defaults to 'horizontal'. Only applicable when displayType is Radiogroup",
+"enum": [
+"vertical",
+"horizontal"
+]
+}
+},
+"description": "See [Boolean](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_boolean)"
+},
+"BooleanRadioGroupFieldValidations": {
+"type": "object",
+"properties": {
+"inResourceBundle": {
+"type": "string",
+"description": "id of a resource bundle that is used to fetch values from.\nIn the content type editor, this corresponds to the 'source' property.\nFrom the value list, two keys are read, 'true' and 'false'."
+},
+"inValues": {
+"type": "array",
+"description": "labels of the field. Expects labels of true and false values respectivelyIn the content type editor, this corresponds to the 'trueLabel' and 'falseLabel' properties.",
+"items": {
+"type": "string",
+"description": "labels of the field. Expects labels of true and false values respectivelyIn the content type editor, this corresponds to the 'trueLabel' and 'falseLabel' properties."
+}
+}
+},
+"description": "See [Boolean](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_boolean)"
+},
+"CheckboxFieldPresentation": {
+"required": [
+"caption",
+"displayType",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"displayType": {
+"type": "string",
+"description": "display type of the field. Valid values: Checkbox, RadioGroup",
+"enum": [
+"Simple",
+"Text",
+"Checkbox",
+"RadioGroup",
+"Dropdown",
+"MultiSelect",
+"AnyLink",
+"ImageLink"
+]
+}
+},
+"description": "See [Boolean](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_boolean)"
+},
+"DateFieldPresentation": {
+"required": [
+"caption",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"timeSelectable": {
+"type": "boolean",
+"description": "Defines if the time is also selectable for Date field."
+}
+}
+},
+"DropdownFieldPresentation": {
+"required": [
+"caption",
+"displayType",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"displayType": {
+"type": "string",
+"description": "display type of the field. Valid values: RadioGroup, Dropdown, MultiSelect",
+"enum": [
+"Simple",
+"Text",
+"Checkbox",
+"RadioGroup",
+"Dropdown",
+"MultiSelect",
+"AnyLink",
+"ImageLink"
+]
+},
+"sortOrder": {
+"type": "string",
+"description": "sortOrder type of the field. Valid values: ascending, descending. Defaults to 'ascending'",
+"enum": [
+"ascending",
+"descending"
+]
+},
+"sortBy": {
+"type": "string",
+"description": "sortBy type of the field. Valid values: key, label. Defaults to 'label'",
+"enum": [
+"key",
+"label"
+]
+},
+"showDefault": {
+"type": "boolean",
+"description": "Defines whether the default value 'Choose One' should be shown"
+}
+},
+"description": "See [SelectableString](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectablestring)"
+},
+"DropdownFieldValidations": {
+"type": "object",
+"properties": {
+"inResourceBundle": {
+"type": "string",
+"description": "id of a resource bundle that is used to fetch values from.\nIn the content type editor, this corresponds to the 'source' property."
+},
+"inValues": {
+"type": "array",
+"description": "Expects an array of key-label values. Not applicable for displayType RadioGroup or MultiSelect\nIn the content type editor, this corresponds to the 'selectable.options' property.",
+"items": {
+"$ref": "#/components/schemas/KeyLabel"
+}
+}
+},
+"description": "See [SelectableString](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectablestring)"
+},
+"EmbeddedResourceFieldValue": {
+"required": [
+"binarydata",
+"filename",
+"mimeType"
+],
+"type": "object",
+"properties": {
+"filename": {
+"type": "string",
+"description": "the name of the file that is used as default value"
+},
+"binarydata": {
+"type": "string",
+"description": "the binary data of the file that is used as default value. This data has to be encoded using base64"
+},
+"mimeType": {
+"type": "string",
+"description": "the mimeType of the file to be uploaded"
+}
+},
+"description": "See [EmbeddedResource](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_embeddedresource)"
+},
+"FieldGroupContentTypeField": {
+"required": [
+"fieldGroupType",
+"name",
+"presentation",
+"type"
+],
+"type": "object",
+"description": "The FieldGroup field type provides content authors with the ability to add one pre-configured fieldgroup type to a document. All the fields that the fieldgroup type specifies become fields of the enclosing document, visually grouped together.\nSee [FieldGroup](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_fieldgroup)",
+"allOf": [
+{
+"$ref": "#/components/schemas/ContentTypeField"
+},
+{
+"type": "object",
+"properties": {
+"fieldGroupType": {
+"type": "string",
+"description": "the name of the fieldgroup type that this field will use"
+}
+}
+}
+]
+},
+"FieldGroupFieldValue": {
+"required": [
+"fields"
+],
+"type": "object",
+"properties": {
+"fields": {
+"type": "object",
+"additionalProperties": {
+"type": "array",
+"description": "fields from FieldGroup or SelectableFieldGroup",
+"items": {
+"$ref": "#/components/schemas/FieldValue"
+}
+},
+"description": "fields from FieldGroup or SelectableFieldGroup"
+}
+},
+"description": "See [FieldGroup](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_fieldgroup)"
+},
+"HtmlFieldPresentation": {
+"required": [
+"caption",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"ckEditorAppendedJson": {
+"type": "string",
+"description": "JSON configuration object for CKEditor.\nIn the content type editor, this corresponds to the 'ckeditor.config.appended.json' property"
+},
+"ckEditorOverlayedJson": {
+"type": "string",
+"description": "JSON configuration object for CKEditor.\nIn the content type editor, this corresponds to the 'ckeditor.config.overlayed.json' property"
+}
+},
+"description": "See [HTML fields](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_html)"
+},
+"ImageLinkFieldPresentation": {
+"required": [
+"caption",
+"displayType",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"uploadEnabled": {
+"type": "boolean",
+"description": "whether the user is allowed to upload new files from within the picker dialog, defaults to true"
+},
+"displayType": {
+"type": "string",
+"description": "display type of the field. Valid values: AnyLink, ImageLink",
+"enum": [
+"Simple",
+"Text",
+"Checkbox",
+"RadioGroup",
+"Dropdown",
+"MultiSelect",
+"AnyLink",
+"ImageLink"
+]
+},
+"lookupFolderTypes": {
+"type": "array",
+"description": "Imageset types allowed for selection.\nIn the content type editor, this corresponds to the 'nodetypes' property",
+"items": {
+"type": "string",
+"description": "Imageset types allowed for selection.\nIn the content type editor, this corresponds to the 'nodetypes' property"
+}
+},
+"lastVisitedKey": {
+"type": "string",
+"description": "If specified, the last visited folder is stored separately for this key. This allows managing multiple 'last visited folders', for example, one for each content type.If not specified, the last visited folder is 'shared' with all other link fields that have not specified a lastVisitedKey. Defaults to 'gallerypicker-imagelink'.\nIn the content type editor, this corresponds to the 'last.visited.key' property"
+},
+"lastVisitedEnabled": {
+"type": "boolean",
+"description": "Enables to remember and open the last opened folder for the session in the picker dialog. True by default.\nIn the content type editor, this corresponds to the 'last.visited.enabled' property"
+}
+},
+"description": "See [Link](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_link)"
+},
+"KeyLabel": {
+"required": [
+"key",
+"label"
+],
+"type": "object",
+"properties": {
+"key": {
+"type": "string",
+"description": "key validation of the field. Expects a string value"
+},
+"label": {
+"type": "string",
+"description": "label validation of the field. Expects a string value"
+}
+},
+"description": "Expects an array of key-label values. Not applicable for displayType RadioGroup or MultiSelect\nIn the content type editor, this corresponds to the 'selectable.options' property."
+},
+"LinkFieldPresentation": {
+"required": [
+"caption",
+"displayType",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"lookupFolderPath": {
+"type": "string",
+"description": "The path of the default folder to show when the Link Picker dialog opens.\nIn the content type editor, this corresponds to the 'base.path' property"
+},
+"lastVisitedNodetypes": {
+"type": "array",
+"description": "By default, only hippostd:folder type nodes are regarded as 'last visited folders' mentioned above. If you have any custom node types representing folder other than hippostd:folder, then you can specify other node types.\nIn the content type editor, this corresponds to the 'last.visited.nodetypes' property",
+"items": {
+"type": "string",
+"description": "By default, only hippostd:folder type nodes are regarded as 'last visited folders' mentioned above. If you have any custom node types representing folder other than hippostd:folder, then you can specify other node types.\nIn the content type editor, this corresponds to the 'last.visited.nodetypes' property"
+}
+},
+"languageContextAware": {
+"type": "boolean",
+"description": "If true the Link Picker dialog by default opens the root content folder for the current document's language. True by default, however if lastVisitedEnabled is set, it takes precedence so has to be set to false.\nIn the content type editor, this corresponds to the 'language.context.aware' property"
+},
+"pickerType": {
+"type": "string",
+"description": "the type of the picker to use. Valid values: documents, images, assets, folders, documents-only, documents-folders-only. Defaults to 'documents'.\nIn the content type editor, this corresponds to the 'cluster.name' property. The API takes care of managing the 'cms-pickers' prefix."
+},
+"displayType": {
+"type": "string",
+"description": "display type of the field. Valid values: AnyLink, ImageLink",
+"enum": [
+"Simple",
+"Text",
+"Checkbox",
+"RadioGroup",
+"Dropdown",
+"MultiSelect",
+"AnyLink",
+"ImageLink"
+]
+},
+"lookupFolderTypes": {
+"type": "array",
+"description": "Content types allowed for selection.\nIn the content type editor, this corresponds to the 'nodetypes' property",
+"items": {
+"type": "string",
+"description": "Content types allowed for selection.\nIn the content type editor, this corresponds to the 'nodetypes' property"
+}
+},
+"lastVisitedKey": {
+"type": "string",
+"description": "If specified, the last visited folder is stored separately for this key. This allows managing multiple 'last visited folders', for example, one for each content type.If not specified, the last visited folder is 'shared' with all other link fields that have not specified a lastVisitedKey.\nIn the content type editor, this corresponds to the 'last.visited.key' property"
+},
+"lastVisitedEnabled": {
+"type": "boolean",
+"description": "Enables to remember and open the last opened folder for the session in the picker dialog. True by default.\nIn the content type editor, this corresponds to the 'last.visited.enabled' property"
+}
+},
+"description": "See [Link](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_link)"
+},
+"MultiSelectAndRadioGroupFieldsValidations": {
+"type": "object",
+"properties": {
+"inResourceBundle": {
+"type": "string",
+"description": "id of a resource bundle that is used to fetch values from.\nIn the content type editor, this corresponds to the 'source' property."
+}
+},
+"description": "See [SelectableString](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectablestring)"
+},
+"MultiSelectFieldPresentation": {
+"required": [
+"caption",
+"displayType",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"displayType": {
+"type": "string",
+"description": "display type of the field. Valid values: RadioGroup, Dropdown, MultiSelect",
+"enum": [
+"Simple",
+"Text",
+"Checkbox",
+"RadioGroup",
+"Dropdown",
+"MultiSelect",
+"AnyLink",
+"ImageLink"
+]
+},
+"multiSelectType": {
+"type": "string",
+"description": "This property determines the user interface of the field. Valid values are: selectlist, checkboxes, palette.",
+"enum": [
+"selectlist",
+"checkboxes",
+"palette"
+]
+},
+"maxRowWithoutScrollbar": {
+"type": "integer",
+"description": "in case of using the selectlist or palette representations, this property allows to set the maximum number of elements shown (if there are more elements, a scrollbar will appear.\nIn the content type editor, this corresponds to the 'selectlist.maxrows' and 'palette.maxrows' properties.",
+"format": "int32"
+},
+"multiSelectAllowOrder": {
+"type": "boolean",
+"description": "in case of using the palette representation, if set to 'true', it will be possible to manually order the elements on the 'selected' list.\nIn the content type editor, this corresponds to the 'palette.alloworder' property"
+}
+},
+"description": "The Multi Select field lets authors select multiple elements from a list of possible options. Before setting up this field, the authors have to create a document of the type resource bundle, which will provide the options to be selected.\nSee [SelectableString](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectablestring)"
+},
+"OpenUiExtensionFieldPresentation": {
+"required": [
+"caption",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"extensionType": {
+"type": "string",
+"description": "the name of the extension that will be used.\nIn the content type editor, this corresponds to the 'ui.extension' property"
+}
+},
+"description": "See [Open UI String](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_open-ui-string)"
+},
+"RadioGroupFieldPresentation": {
+"required": [
+"caption",
+"displayType",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"displayType": {
+"type": "string",
+"description": "display type of the field. Valid values: RadioGroup, Dropdown, MultiSelect",
+"enum": [
+"Simple",
+"Text",
+"Checkbox",
+"RadioGroup",
+"Dropdown",
+"MultiSelect",
+"AnyLink",
+"ImageLink"
+]
+},
+"orientation": {
+"type": "string",
+"description": "orientation type of the field. Valid values: horizontal, vertical. Defaults to 'horizontal'",
+"enum": [
+"vertical",
+"horizontal"
+]
+},
+"sortOrder": {
+"type": "string",
+"description": "sortOrder type of the field. Valid values: ascending, descending. Defaults to 'ascending'",
+"enum": [
+"ascending",
+"descending"
+]
+},
+"sortBy": {
+"type": "string",
+"description": "sortBy type of the field. Valid values: key, label. Defaults to 'label'",
+"enum": [
+"key",
+"label"
+]
+}
+},
+"description": "See [SelectableString](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectablestring)"
+},
+"RichTextFieldPresentation": {
+"required": [
+"caption",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"ckEditorAppendedJson": {
+"type": "string",
+"description": "JSON configuration object for CKEditor.\nIn the content type editor, this corresponds to the 'ckeditor.config.appended.json' property"
+},
+"ckEditorOverlayedJson": {
+"type": "string",
+"description": "JSON configuration object for CKEditor.\nIn the content type editor, this corresponds to the 'ckeditor.config.overlayed.json' property"
+},
+"imagepickerBasePath": {
+"type": "string",
+"description": "path of the node to open in the picker by default if no 'last visited' node is available. Use an empty string to disable this feature.\nIn the content type editor, this corresponds to the 'imagepicker.base.uuid' property. The API takes care of converting from path to uuid and vice versa."
+},
+"imagepickerType": {
+"type": "string",
+"description": "the type of the picker to use. Valid values: documents, images, assets, folders, documents-only, documents-folders-only. Defaults to 'images'.\nIn the content type editor, this corresponds to the 'imagepicker.cluster.name' property. The API takes care of managing the 'cms-pickers' prefix."
+},
+"imagepickerNodetypes": {
+"type": "array",
+"description": "one or more JCR node types (comma separated) specifying the content types that can be selected. By default, all types are selectable.\nIn the content type editor, this corresponds to the 'imagepicker.nodetypes' property.",
+"items": {
+"type": "string",
+"description": "one or more JCR node types (comma separated) specifying the content types that can be selected. By default, all types are selectable.\nIn the content type editor, this corresponds to the 'imagepicker.nodetypes' property."
+}
+},
+"imagepickerLastVisitedEnabled": {
+"type": "boolean",
+"description": "Whether to store the last visited node. Defaults to true.\nIn the content type editor, this corresponds to the 'imagepicker.last.visited.enabled' property."
+},
+"imagepickerLastVisitedGroupKey": {
+"type": "string",
+"description": "Key to store the last visited node in the link picker dialog under. Use a unique value to remember the last visited node separately from other CKEditor link picker dialogs. Default: ckeditor-imagepicker.\nIn the content type editor, this corresponds to the 'imagepicker.last.visited.key' property."
+},
+"imagepickerLastVisitedNodetypes": {
+"type": "array",
+"description": "The JCR node type(s) allowed to be stored as last visited node. Default: hippostd:gallery.\nIn the content type editor, this corresponds to the 'imagepicker.last.visited.nodetypes' property.",
+"items": {
+"type": "string",
+"description": "The JCR node type(s) allowed to be stored as last visited node. Default: hippostd:gallery.\nIn the content type editor, this corresponds to the 'imagepicker.last.visited.nodetypes' property."
+}
+},
+"imagepickerPreferredImageVariant": {
+"type": "string",
+"description": "The image variant to select by default in the variant combo box of the image picker.Default: hippogallery:original.\nIn the content type editor, this corresponds to the 'imagepicker.preferred.image.variant' property."
+},
+"linkpickerBasePath": {
+"type": "string",
+"description": "path of the node to open in the picker by default if no 'last visited' node is available. Use an empty string to disable this feature.\nIn the content type editor, this corresponds to the 'linkpicker.base.uuid' property. The API takes care of converting from path to uuid and vice versa."
+},
+"linkpickerType": {
+"type": "string",
+"description": "the type of the picker to use. Valid values: documents, images, assets, folders, documents-only, documents-folders-only. Defaults to 'documents'.\nIn the content type editor, this corresponds to the 'linkpicker.cluster.name' property. The API takes care of managing the 'cms-pickers' prefix."
+},
+"linkpickerNodetypes": {
+"type": "array",
+"description": "one or more JCR node types specifying the content types that can be selected. By default, all types are selectable.\nIn the content type editor, this corresponds to the 'linkpicker.nodetypes' property.",
+"items": {
+"type": "string",
+"description": "one or more JCR node types specifying the content types that can be selected. By default, all types are selectable.\nIn the content type editor, this corresponds to the 'linkpicker.nodetypes' property."
+}
+},
+"linkpickerLastVisitedEnabled": {
+"type": "boolean",
+"description": "Whether to store the last visited node. Defaults to true.\nIn the content type editor, this corresponds to the 'linkpicker.last.visited.enabled' property."
+},
+"linkpickerLastVisitedGroupKey": {
+"type": "string",
+"description": "Key to store the last visited node in the link picker dialog under. Use a unique value to remember the last visited node separately from other CKEditor link picker dialogs. Default: ckeditor-documentpicker.\nIn the content type editor, this corresponds to the 'linkpicker.last.visited.key' property."
+},
+"linkpickerLastVisitedNodetypes": {
+"type": "array",
+"description": "The JCR node type(s) allowed to be stored as last visited node. Default: hippostd:folder.\nIn the content type editor, this corresponds to the 'linkpicker.last.visited.nodetypes' property.",
+"items": {
+"type": "string",
+"description": "The JCR node type(s) allowed to be stored as last visited node. Default: hippostd:folder.\nIn the content type editor, this corresponds to the 'linkpicker.last.visited.nodetypes' property."
+}
+},
+"linkPickerLanguageContextAware": {
+"type": "boolean",
+"description": "Whether the starting folder of the documentpicker is the folder of the language of the document. Defaults to true.\nIn the content type editor, this corresponds to the 'linkpicker.language.context.aware' property."
+},
+"linkPickerOpenInNewWindowEnabled": {
+"type": "boolean",
+"description": "Whether to show to 'open in new window' checkbox in the link picker dialog. Defaults to true.\nIn the content type editor, this corresponds to the 'linkpicker.open.in.new.window.enabled' property."
+},
+"includeImageVariants": {
+"type": "array",
+"description": "The (comma separated) JCR node type(s) of image variants to be included in the 'Size' dropdown of the image picker dialog. If empty all image variants will be included.\nIn the content type editor, this corresponds to the 'included.image.variants' property.",
+"items": {
+"type": "string",
+"description": "The (comma separated) JCR node type(s) of image variants to be included in the 'Size' dropdown of the image picker dialog. If empty all image variants will be included.\nIn the content type editor, this corresponds to the 'included.image.variants' property."
+}
+},
+"excludeImageVariants": {
+"type": "array",
+"description": "The (comma separated) JCR node type(s) to be excluded from the 'Size' dropdown of the image picker dialog.\nIn the content type editor, this corresponds to the 'excluded.image.variants' property.",
+"items": {
+"type": "string",
+"description": "The (comma separated) JCR node type(s) to be excluded from the 'Size' dropdown of the image picker dialog.\nIn the content type editor, this corresponds to the 'excluded.image.variants' property."
+}
+}
+},
+"description": "See [Rich Text](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_rich-text)"
+},
+"SelectableFieldGroupContentTypeField": {
+"required": [
+"fieldGroupTypes",
+"name",
+"presentation",
+"type"
+],
+"type": "object",
+"description": "The SelectableFieldGroup field type provides content authors with the ability to add pre-configured fieldgroup types to a document, which allows for more flexible content types in which authors have the freedom to choose which compound(s) to use.\nSee [Selectable FieldGroup](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectable-fieldgroup)",
+"allOf": [
+{
+"$ref": "#/components/schemas/ContentTypeField"
+},
+{
+"type": "object",
+"properties": {
+"fieldGroupTypes": {
+"type": "array",
+"description": "an array of fieldgroup types that will be enabed in this group of fieldgroups.\nIn the content type editor, this corresponds to the 'compoundList' property",
+"items": {
+"type": "string",
+"description": "an array of fieldgroup types that will be enabed in this group of fieldgroups.\nIn the content type editor, this corresponds to the 'compoundList' property"
+}
+}
+}
+}
+]
+},
+"SelectableFieldGroupFieldValidations": {
+"type": "object",
+"properties": {
+"maxItem": {
+"type": "integer",
+"description": "when the multiple option is selected, the maximum number of items that can be added. If multiple is not selected, the maximum number will be 1, regardless the value of this field.\nIn the content type editor, this corresponds to the 'maxitems' property",
+"format": "int32"
+}
+},
+"description": "See [Selectable FieldGroup](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectable-fieldgroup)"
+},
+"SelectableFieldGroupFieldValue": {
+"required": [
+"fieldGroupType",
+"fields"
+],
+"type": "object",
+"properties": {
+"fields": {
+"type": "object",
+"additionalProperties": {
+"type": "array",
+"description": "fields from FieldGroup or SelectableFieldGroup",
+"items": {
+"$ref": "#/components/schemas/FieldValue"
+}
+},
+"description": "fields from FieldGroup or SelectableFieldGroup"
+},
+"fieldGroupType": {
+"type": "string",
+"description": "the name of the fieldgroup type this default value is provided for"
+}
+},
+"description": "See [Selectable FieldGroup](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectable-fieldgroup)"
+},
+"SelectableFieldGroupPresentation": {
+"required": [
+"caption",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"contentPickerType": {
+"type": "string",
+"description": "the way the picker buttons will be rendered. The valid values are 'links' (default) and 'dropdown': * links: shows as many buttons as available compounds. When hitting a button, adds a new block of that compound type* dropdown: presents a dropdown containing all the available compounds and an additional button to add an item of the selected compound of the dropdown",
+"enum": [
+"links",
+"dropdown"
+]
+},
+"showFieldGroupNames": {
+"type": "boolean",
+"description": "the valid values are 'false' (default) and 'true', it determines whether each item should add the field group name on top of it. When it's active, clicking on the name will collapse or expand the item.\nIn the content type editor, this corresponds to the 'showCompoundNames' property"
+}
+},
+"description": "See [Selectable FieldGroup](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectable-fieldgroup)"
+},
+"StringFieldPresentation": {
+"required": [
+"caption",
+"displayType",
+"hint"
+],
+"type": "object",
+"properties": {
+"caption": {
+"type": "string",
+"description": "the caption of a field is the label that is displayed directly above the field in the editing template. Authors will know a field by its caption. A caption is single-line plain text and may contain spaces and special characters."
+},
+"hint": {
+"type": "string",
+"description": "optionally a hint to authors can be added to a field. The hint is displayed as a question mark icon with a mouseover popup."
+},
+"layoutColumn": {
+"type": "integer",
+"description": "layoutColumn index used for positioning the field. Starts from 1. Defaults to 1",
+"format": "int32"
+},
+"displayType": {
+"type": "string",
+"description": "display type of the field. Valid values: Simple, Text.",
+"enum": [
+"Simple",
+"Text",
+"Checkbox",
+"RadioGroup",
+"Dropdown",
+"MultiSelect",
+"AnyLink",
+"ImageLink"
+]
+}
+},
+"description": "See [String](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_string)"
+},
+"StringSimpleFieldValidations": {
+"type": "object",
+"properties": {
+"maxLength": {
+"type": "integer",
+"description": "maxLength determines the maximum number of characters allowed in this string field. Expects an integer value",
+"format": "int32"
+}
+}
+},
+"System": {
+"type": "object",
+"properties": {
+"createdBy": {
+"type": "string"
+},
+"createdAt": {
+"type": "string",
+"format": "date-time"
+},
+"updatedBy": {
+"type": "string"
+},
+"updatedAt": {
+"type": "string",
+"format": "date-time"
+}
+},
+"description": "system properties",
+"readOnly": true
+},
+"TaxonomyFieldValidations": {
+"type": "object",
+"properties": {
+"inTaxonomy": {
+"type": "string",
+"description": "the name of the taxonomy document that will be used. Expects a string value.\nIn the content type editor, this corresponds to the 'taxonomy.name' property"
+}
+},
+"description": "See [Taxonomy](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_taxonomy)"
+},
+"TextFieldValidations": {
+"type": "object",
+"properties": {
+"maxRow": {
+"type": "integer",
+"description": "maxRow determines the number of rows shown for the textarea this field renders. Expects an integer value",
+"format": "int32"
+}
+}
+}
+},
+"securitySchemes": {
+"bearerAuth": {
+"type": "apiKey",
+"name": "x-auth-userid",
+"in": "header"
+}
+}
+}
+}
