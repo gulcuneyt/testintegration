@@ -3452,7 +3452,7 @@ true
 "$ref": "#/components/schemas/System"
 }
 },
-"description": "Content type is a generic term indicating a definition of a class of content items. Document types and FieldGroup types are all content types. See [official documentation](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-types.html)"
+"description": "Updated TEXT Content type is a generic term indicating a definition of a class of content items. Document types and FieldGroup types are all content types. See [official documentation](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-types.html)"
 },
 "ContentTypePresentation": {
 "required": [
