@@ -1,0 +1,1425 @@
+---
+openapi: 3.0.1
+info:
+  title: Content API
+  description: The Content API enables brX developers to import content through a set of endpoints
+  version: 1.0.0
+externalDocs:
+  description: See official Bloomreach documentation
+  url: https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-management-api.html
+servers:
+- url: http://localhost:8080/management/content/v1
+security:
+- bearerAuth: []
+tags:
+- name: Content Document Operations
+  externalDocs:
+    description: See
+    url: ""
+- name: Content Page Operations
+  externalDocs:
+    description: See
+    url: ""
+paths:
+  /project/{project_id}/document/{document_path}:
+    get:
+      tags:
+      - Content Document Operations
+      summary: Get a document in a specific project
+      description: Get a document in a specific project
+      operationId: getDocument_1
+      parameters:
+      - name: project_id
+        in: path
+        description: specifies the project content is fetched from
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: vIUy9
+      - name: document_path
+        in: path
+        description: Path of a document. This is the absolute path to the document, including the document name
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: /content/documents/brxsaas/banners/banner1
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Resource-Version:
+              description: Resource's version. Must be used in any subsequent update requests of this resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+              examples:
+                A document with common fields:
+                  description: |
+                    In this example, fields of the following types are used:
+                    * String (in this example used for String, Text, Html, RichText, Date, and Link fields
+                    * Boolean (in this example used for simple boolean fields)
+                    * Integer
+                    * Number
+                  value:
+                    name: brand-1
+                    displayName: Brand 1
+                    contentType: banner
+                    fields:
+                    - name: title
+                      value:
+                      - Brand 1
+                    - name: text
+                      value:
+                      - Welcome to the Bloomreach Sample Front-end Application for the brX Content. This front-end application includes a range of implementations for starting your own website, including Bloomreach Search and Merchandising functionality, GraphQL, and other integrations across the brX Content. We invite you to look around and start building your own version of this app by cloning it and playing around.
+                    - name: multipleHtmlField
+                      value:
+                      - <p>Welcome to the Bloomreach Sample Front-end Application for the brX Content</p>
+                      - <p>More html text</p>
+                    - name: aRichtextField
+                      value:
+                      - '<p>Example rich text field with links: <a data-link="/content/documents/brxsaas/banners/banner-1">internal link</a>, <a href="http://www.bloomreach.com">external link</a>, <a data-link="/content/gallery/brxsaas/banners/test-image.jpg">link to image</a>, <a data-link="/content/assets/brxsaas/test-asset.pdf">link to asset</a>, embedded image: <img src="test-image2.jpg/{_document}/hippogallery:original" /></p>'
+                    - name: dateField
+                      value:
+                      - 2021-10-06T22:00:00Z
+                    - name: image
+                      value:
+                      - /content/gallery/brxsaas/banners/brand-1.jpg
+                    - name: link
+                      value:
+                      - /content/documents/brxsaas/pages/products/all
+                    - name: multipleBooleanField
+                      value:
+                      - true
+                      - false
+                    - name: integerField
+                      value:
+                      - 24
+                    - name: multipleNumberField
+                      value:
+                      - 24.1
+                      - 5.6
+                    path: /content/documents/brxsaas/banners/brand-1
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+                A document with embedded resource fields:
+                  description: |
+                    In this example, fields of the following types are used:
+                    * EmbeddedResource
+                  value:
+                    name: example-1
+                    displayName: Example 1
+                    contentType: exampletype
+                    fields:
+                    - name: anEmbeddedResourceField
+                      value:
+                      - filename: hippo:resource
+                        binarydata: /9j/4AAQSkZJRgABAQAAFAAUAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAAAUAAAAAQAAABQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAigAwAEAAAAAQAAAAUAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAAUACAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEAAH/2gAMAwEAAhEDEQA/APrD4kfAXwl46KapdRwm7uHw0l9b/bDHkjPlFmDRjAxtB289OueI/wCGPPB3/P3p3/gmT/45X0Hdf8eVr/11FNrCtlmGrTc5J38pSX4JpG1PGVYxS0frGLf3tNn/2Q==
+                        mimeType: application/json
+                    path: /content/documents/brxsaas/content/content-1
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+                A document with fieldgroups:
+                  description: |+
+                    In this example, the following fields are used:
+                    * Fieldgroup
+                    * Selectable Fieldgroup
+
+                  value:
+                    name: aDocumentWithFieldGroups
+                    displayName: aDocumentWithFieldGroups 1
+                    contentType: aTypeWithFieldGroups
+                    path: /content/documents/brxsaas/content/aDocumentWithFieldGroups-1
+                    fields:
+                    - name: aFieldGroupField
+                      value:
+                      - fields:
+                          title:
+                          - A default title
+                          calendardate:
+                          - 2021-10-06T22:00:00Z
+                    - name: aFieldGroupWithFieldGroupField
+                      value:
+                      - fields:
+                          aFieldGroupField:
+                          - fields:
+                              title:
+                              - A different default title
+                              calendardate:
+                              - 2022-02-08T23:00:00Z
+                          title:
+                          - Top level title
+                    - name: aSelectableFieldGroupField
+                      value:
+                      - fieldGroupType: aFieldGroupType
+                        fields:
+                          title:
+                          - A default title
+                          calendardate:
+                          - 2021-10-06T22:00:00Z
+                      - fieldGroupType: aFieldGroupWithFieldGroupType
+                        fields:
+                          title:
+                          - Top level title
+                          aFieldGroupField:
+                          - fields:
+                              title:
+                              - A different default title
+                              calendardate:
+                              - 2022-02-08T23:00:00Z
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - Content Document Operations
+      summary: Create or update a document in a specific project
+      description: Create or update a document in a specific project
+      operationId: putDocument_1
+      parameters:
+      - name: X-Resource-Version
+        in: header
+        description: Resource's version, as obtained when GETting the resource. The first time a resource is created, a empty value is expected (omit the header). Must be used in any subsequent update requests of this resource
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 433cc90445d29c2356e385b9efe548b19ed86739f27eb7958a81847b9d8517c2
+      - name: project_id
+        in: path
+        description: specifies the project content is added to
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: vIUy9
+      - name: document_path
+        in: path
+        description: Path of a document. This is the absolute path to the document, including the document name. Folders appearing in this path need to preexist
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: /content/documents/brxsaas/banners/banner1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+            examples:
+              A document with common fields:
+                description: |
+                  In this example, fields of the following types are used:
+                  * String (in this example used for String, Text, Html, RichText, Date, and Link fields
+                  * Boolean (in this example used for simple boolean fields)
+                  * Integer
+                  * Number
+                value:
+                  name: brand-1
+                  displayName: Brand 1
+                  contentType: banner
+                  fields:
+                  - name: title
+                    value:
+                    - Brand 1
+                  - name: text
+                    value:
+                    - Welcome to the Bloomreach Sample Front-end Application for the brX Content. This front-end application includes a range of implementations for starting your own website, including Bloomreach Search and Merchandising functionality, GraphQL, and other integrations across the brX Content. We invite you to look around and start building your own version of this app by cloning it and playing around.
+                  - name: multipleHtmlField
+                    value:
+                    - <p>Welcome to the Bloomreach Sample Front-end Application for the brX Content</p>
+                    - <p>More html text</p>
+                  - name: aRichtextField
+                    value:
+                    - '<p>Example rich text field with links: <a data-link="/content/documents/brxsaas/banners/banner-1">internal link</a>, <a href="http://www.bloomreach.com">external link</a>, <a data-link="/content/gallery/brxsaas/banners/test-image.jpg">link to image</a>, <a data-link="/content/assets/brxsaas/test-asset.pdf">link to asset</a>, embedded image: <img src="test-image2.jpg/{_document}/hippogallery:original" /></p>'
+                  - name: dateField
+                    value:
+                    - 2021-10-06T22:00:00Z
+                  - name: image
+                    value:
+                    - /content/gallery/brxsaas/banners/brand-1.jpg
+                  - name: link
+                    value:
+                    - /content/documents/brxsaas/pages/products/all
+                  - name: multipleBooleanField
+                    value:
+                    - true
+                    - false
+                  - name: integerField
+                    value:
+                    - 24
+                  - name: multipleNumberField
+                    value:
+                    - 24.1
+                    - 5.6
+                  path: /content/documents/brxsaas/banners/brand-1
+              A document with embedded resource fields:
+                description: |
+                  In this example, fields of the following types are used:
+                  * EmbeddedResource
+                value:
+                  name: example-1
+                  displayName: Example 1
+                  contentType: exampletype
+                  fields:
+                  - name: anEmbeddedResourceField
+                    value:
+                    - filename: hippo:resource
+                      binarydata: /9j/4AAQSkZJRgABAQAAFAAUAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAAAUAAAAAQAAABQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAigAwAEAAAAAQAAAAUAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAAUACAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEAAH/2gAMAwEAAhEDEQA/APrD4kfAXwl46KapdRwm7uHw0l9b/bDHkjPlFmDRjAxtB289OueI/wCGPPB3/P3p3/gmT/45X0Hdf8eVr/11FNrCtlmGrTc5J38pSX4JpG1PGVYxS0frGLf3tNn/2Q==
+                      mimeType: application/json
+                  path: /content/documents/brxsaas/content/content-1
+              A document with fieldgroups:
+                description: |+
+                  In this example, the following fields are used:
+                  * Fieldgroup
+                  * Selectable Fieldgroup
+
+                value:
+                  name: aDocumentWithFieldGroups
+                  displayName: aDocumentWithFieldGroups 1
+                  contentType: aTypeWithFieldGroups
+                  path: /content/documents/brxsaas/content/aDocumentWithFieldGroups-1
+                  fields:
+                  - name: aFieldGroupField
+                    value:
+                    - fields:
+                        title:
+                        - A default title
+                        calendardate:
+                        - 2021-10-06T22:00:00Z
+                  - name: aFieldGroupWithFieldGroupField
+                    value:
+                    - fields:
+                        aFieldGroupField:
+                        - fields:
+                            title:
+                            - A different default title
+                            calendardate:
+                            - 2022-02-08T23:00:00Z
+                        title:
+                        - Top level title
+                  - name: aSelectableFieldGroupField
+                    value:
+                    - fieldGroupType: aFieldGroupType
+                      fields:
+                        title:
+                        - A default title
+                        calendardate:
+                        - 2021-10-06T22:00:00Z
+                    - fieldGroupType: aFieldGroupWithFieldGroupType
+                      fields:
+                        title:
+                        - Top level title
+                        aFieldGroupField:
+                        - fields:
+                            title:
+                            - A different default title
+                            calendardate:
+                            - 2022-02-08T23:00:00Z
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Resource-Version:
+              description: Resource's version. Must be used in any subsequent update requests of this resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+              examples:
+                A document with common fields:
+                  description: |
+                    In this example, fields of the following types are used:
+                    * String (in this example used for String, Text, Html, RichText, Date, and Link fields
+                    * Boolean (in this example used for simple boolean fields)
+                    * Integer
+                    * Number
+                  value:
+                    name: brand-1
+                    displayName: Brand 1
+                    contentType: banner
+                    fields:
+                    - name: title
+                      value:
+                      - Brand 1
+                    - name: text
+                      value:
+                      - Welcome to the Bloomreach Sample Front-end Application for the brX Content. This front-end application includes a range of implementations for starting your own website, including Bloomreach Search and Merchandising functionality, GraphQL, and other integrations across the brX Content. We invite you to look around and start building your own version of this app by cloning it and playing around.
+                    - name: multipleHtmlField
+                      value:
+                      - <p>Welcome to the Bloomreach Sample Front-end Application for the brX Content</p>
+                      - <p>More html text</p>
+                    - name: aRichtextField
+                      value:
+                      - '<p>Example rich text field with links: <a data-link="/content/documents/brxsaas/banners/banner-1">internal link</a>, <a href="http://www.bloomreach.com">external link</a>, <a data-link="/content/gallery/brxsaas/banners/test-image.jpg">link to image</a>, <a data-link="/content/assets/brxsaas/test-asset.pdf">link to asset</a>, embedded image: <img src="test-image2.jpg/{_document}/hippogallery:original" /></p>'
+                    - name: dateField
+                      value:
+                      - 2021-10-06T22:00:00Z
+                    - name: image
+                      value:
+                      - /content/gallery/brxsaas/banners/brand-1.jpg
+                    - name: link
+                      value:
+                      - /content/documents/brxsaas/pages/products/all
+                    - name: multipleBooleanField
+                      value:
+                      - true
+                      - false
+                    - name: integerField
+                      value:
+                      - 24
+                    - name: multipleNumberField
+                      value:
+                      - 24.1
+                      - 5.6
+                    path: /content/documents/brxsaas/banners/brand-1
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+                A document with embedded resource fields:
+                  description: |
+                    In this example, fields of the following types are used:
+                    * EmbeddedResource
+                  value:
+                    name: example-1
+                    displayName: Example 1
+                    contentType: exampletype
+                    fields:
+                    - name: anEmbeddedResourceField
+                      value:
+                      - filename: hippo:resource
+                        binarydata: /9j/4AAQSkZJRgABAQAAFAAUAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAAAUAAAAAQAAABQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAigAwAEAAAAAQAAAAUAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAAUACAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEAAH/2gAMAwEAAhEDEQA/APrD4kfAXwl46KapdRwm7uHw0l9b/bDHkjPlFmDRjAxtB289OueI/wCGPPB3/P3p3/gmT/45X0Hdf8eVr/11FNrCtlmGrTc5J38pSX4JpG1PGVYxS0frGLf3tNn/2Q==
+                        mimeType: application/json
+                    path: /content/documents/brxsaas/content/content-1
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+                A document with fieldgroups:
+                  description: |+
+                    In this example, the following fields are used:
+                    * Fieldgroup
+                    * Selectable Fieldgroup
+
+                  value:
+                    name: aDocumentWithFieldGroups
+                    displayName: aDocumentWithFieldGroups 1
+                    contentType: aTypeWithFieldGroups
+                    path: /content/documents/brxsaas/content/aDocumentWithFieldGroups-1
+                    fields:
+                    - name: aFieldGroupField
+                      value:
+                      - fields:
+                          title:
+                          - A default title
+                          calendardate:
+                          - 2021-10-06T22:00:00Z
+                    - name: aFieldGroupWithFieldGroupField
+                      value:
+                      - fields:
+                          aFieldGroupField:
+                          - fields:
+                              title:
+                              - A different default title
+                              calendardate:
+                              - 2022-02-08T23:00:00Z
+                          title:
+                          - Top level title
+                    - name: aSelectableFieldGroupField
+                      value:
+                      - fieldGroupType: aFieldGroupType
+                        fields:
+                          title:
+                          - A default title
+                          calendardate:
+                          - 2021-10-06T22:00:00Z
+                      - fieldGroupType: aFieldGroupWithFieldGroupType
+                        fields:
+                          title:
+                          - Top level title
+                          aFieldGroupField:
+                          - fields:
+                              title:
+                              - A different default title
+                              calendardate:
+                              - 2022-02-08T23:00:00Z
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+        "201":
+          description: Created
+          headers:
+            X-Resource-Version:
+              description: Resource's version. Must be used in any subsequent update requests of this resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+              examples:
+                A document with common fields:
+                  description: |
+                    In this example, fields of the following types are used:
+                    * String (in this example used for String, Text, Html, RichText, Date, and Link fields
+                    * Boolean (in this example used for simple boolean fields)
+                    * Integer
+                    * Number
+                  value:
+                    name: brand-1
+                    displayName: Brand 1
+                    contentType: banner
+                    fields:
+                    - name: title
+                      value:
+                      - Brand 1
+                    - name: text
+                      value:
+                      - Welcome to the Bloomreach Sample Front-end Application for the brX Content. This front-end application includes a range of implementations for starting your own website, including Bloomreach Search and Merchandising functionality, GraphQL, and other integrations across the brX Content. We invite you to look around and start building your own version of this app by cloning it and playing around.
+                    - name: multipleHtmlField
+                      value:
+                      - <p>Welcome to the Bloomreach Sample Front-end Application for the brX Content</p>
+                      - <p>More html text</p>
+                    - name: aRichtextField
+                      value:
+                      - '<p>Example rich text field with links: <a data-link="/content/documents/brxsaas/banners/banner-1">internal link</a>, <a href="http://www.bloomreach.com">external link</a>, <a data-link="/content/gallery/brxsaas/banners/test-image.jpg">link to image</a>, <a data-link="/content/assets/brxsaas/test-asset.pdf">link to asset</a>, embedded image: <img src="test-image2.jpg/{_document}/hippogallery:original" /></p>'
+                    - name: dateField
+                      value:
+                      - 2021-10-06T22:00:00Z
+                    - name: image
+                      value:
+                      - /content/gallery/brxsaas/banners/brand-1.jpg
+                    - name: link
+                      value:
+                      - /content/documents/brxsaas/pages/products/all
+                    - name: multipleBooleanField
+                      value:
+                      - true
+                      - false
+                    - name: integerField
+                      value:
+                      - 24
+                    - name: multipleNumberField
+                      value:
+                      - 24.1
+                      - 5.6
+                    path: /content/documents/brxsaas/banners/brand-1
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+                A document with embedded resource fields:
+                  description: |
+                    In this example, fields of the following types are used:
+                    * EmbeddedResource
+                  value:
+                    name: example-1
+                    displayName: Example 1
+                    contentType: exampletype
+                    fields:
+                    - name: anEmbeddedResourceField
+                      value:
+                      - filename: hippo:resource
+                        binarydata: /9j/4AAQSkZJRgABAQAAFAAUAAD/4QCMRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAAAUAAAAAQAAABQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAAigAwAEAAAAAQAAAAUAAAAA/+0AOFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAAOEJJTQQlAAAAAAAQ1B2M2Y8AsgTpgAmY7PhCfv/AABEIAAUACAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/3QAEAAH/2gAMAwEAAhEDEQA/APrD4kfAXwl46KapdRwm7uHw0l9b/bDHkjPlFmDRjAxtB289OueI/wCGPPB3/P3p3/gmT/45X0Hdf8eVr/11FNrCtlmGrTc5J38pSX4JpG1PGVYxS0frGLf3tNn/2Q==
+                        mimeType: application/json
+                    path: /content/documents/brxsaas/content/content-1
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+                A document with fieldgroups:
+                  description: |+
+                    In this example, the following fields are used:
+                    * Fieldgroup
+                    * Selectable Fieldgroup
+
+                  value:
+                    name: aDocumentWithFieldGroups
+                    displayName: aDocumentWithFieldGroups 1
+                    contentType: aTypeWithFieldGroups
+                    path: /content/documents/brxsaas/content/aDocumentWithFieldGroups-1
+                    fields:
+                    - name: aFieldGroupField
+                      value:
+                      - fields:
+                          title:
+                          - A default title
+                          calendardate:
+                          - 2021-10-06T22:00:00Z
+                    - name: aFieldGroupWithFieldGroupField
+                      value:
+                      - fields:
+                          aFieldGroupField:
+                          - fields:
+                              title:
+                              - A different default title
+                              calendardate:
+                              - 2022-02-08T23:00:00Z
+                          title:
+                          - Top level title
+                    - name: aSelectableFieldGroupField
+                      value:
+                      - fieldGroupType: aFieldGroupType
+                        fields:
+                          title:
+                          - A default title
+                          calendardate:
+                          - 2021-10-06T22:00:00Z
+                      - fieldGroupType: aFieldGroupWithFieldGroupType
+                        fields:
+                          title:
+                          - Top level title
+                          aFieldGroupField:
+                          - fields:
+                              title:
+                              - A different default title
+                              calendardate:
+                              - 2022-02-08T23:00:00Z
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+        "403":
+          description: Forbidden
+  /project/{project_id}/channel/{channel_id}/page/{relative_page_path}:
+    get:
+      tags:
+      - Content Page Operations
+      summary: Get a page in a specific project
+      description: Get a page in a specific project
+      operationId: getPage_1
+      parameters:
+      - name: project_id
+        in: path
+        description: specifies the project content is fetched from
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: vIUy9
+      - name: channel_id
+        in: path
+        description: specifies the channel this page is associated with
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: brxsaas
+      - name: relative_page_path
+        in: path
+        description: Relative path of page. It is appended to the content root path of the given channel
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: pages/mypage
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Resource-Version:
+              description: Resource's version. Must be used in any subsequent update requests of this resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+              examples:
+                A page:
+                  description: In this example, a Page is created
+                  value:
+                    name: home
+                    displayName: Home
+                    layout: two-column
+                    document:
+                      contentType: brxsaas:content
+                      fields:
+                      - name: title
+                        value:
+                        - Example title
+                      - name: content
+                        value:
+                        - <p>Some html content</p>
+                      - name: image
+                        value:
+                        - /content/gallery/brxsaas/banners/brand-1.jpg
+                      - name: introduction
+                        value:
+                        - Example introduction
+                      - name: date
+                        value:
+                        - 2021-10-06T22:00:00Z
+                    containers:
+                    - path: top
+                      components:
+                      - componentDefinition: sample/single-banner-carousel
+                        componentConfigurations:
+                        - id: DEFAULT
+                          content: null
+                          parameters:
+                          - name: alignment
+                            value: center
+                          - name: document1
+                            value: banners/safe-workspace-1
+                          - name: document2
+                            value: banners/safe-workspace-2
+                          - name: interval
+                            value: "10000"
+                    - path: main
+                      components:
+                      - componentDefinition: sample/titleandtext
+                        componentConfigurations:
+                        - id: DEFAULT
+                          content:
+                            contentType: brxsaas:titleandtext
+                            fields:
+                            - name: title
+                              value:
+                              - Welcome to brX Content
+                            - name: text
+                              value:
+                              - Welcome to the Bloomreach Sample Front-end Application for the brX Content. This front-end application includes a range of implementations for starting your own website, including Bloomreach Search and Merchandising functionality, GraphQL, and other integrations across the brX Content. We invite you to look around and start building your own version of this app by cloning it and playing around.
+                          parameters:
+                          - name: titlesize
+                            value: H3
+                          - name: textalignment
+                            value: left
+                          - name: style
+                            value: style1
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - Content Page Operations
+      summary: Create or update a page in a specific project and channel
+      description: Create or update a page in a specific project and channel
+      operationId: putPage_1
+      parameters:
+      - name: X-Resource-Version
+        in: header
+        description: Resource's version, as obtained when GETting the resource. The first time a resource is created, a empty value is expected (omit the header). Must be used in any subsequent update requests of this resource
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 433cc90445d29c2356e385b9efe548b19ed86739f27eb7958a81847b9d8517c2
+      - name: project_id
+        in: path
+        description: specifies the project content is added to
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: vIUy9
+      - name: channel_id
+        in: path
+        description: specifies the channel this page is associated with
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: brxsaas
+      - name: relative_page_path
+        in: path
+        description: Relative path of page. It is appended to the content root path of the given channel. Folders appearing in this path need to preexist
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: pages/mypage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Page'
+            examples:
+              A page:
+                description: In this example, a Page is created
+                value:
+                  name: home
+                  displayName: Home
+                  layout: two-column
+                  document:
+                    contentType: brxsaas:content
+                    fields:
+                    - name: title
+                      value:
+                      - Example title
+                    - name: content
+                      value:
+                      - <p>Some html content</p>
+                    - name: image
+                      value:
+                      - /content/gallery/brxsaas/banners/brand-1.jpg
+                    - name: introduction
+                      value:
+                      - Example introduction
+                    - name: date
+                      value:
+                      - 2021-10-06T22:00:00Z
+                  containers:
+                  - path: top
+                    components:
+                    - componentDefinition: sample/single-banner-carousel
+                      componentConfigurations:
+                      - id: DEFAULT
+                        content: null
+                        parameters:
+                        - name: alignment
+                          value: center
+                        - name: document1
+                          value: banners/safe-workspace-1
+                        - name: document2
+                          value: banners/safe-workspace-2
+                        - name: interval
+                          value: "10000"
+                  - path: main
+                    components:
+                    - componentDefinition: sample/titleandtext
+                      componentConfigurations:
+                      - id: DEFAULT
+                        content:
+                          contentType: brxsaas:titleandtext
+                          fields:
+                          - name: title
+                            value:
+                            - Welcome to brX Content
+                          - name: text
+                            value:
+                            - Welcome to the Bloomreach Sample Front-end Application for the brX Content. This front-end application includes a range of implementations for starting your own website, including Bloomreach Search and Merchandising functionality, GraphQL, and other integrations across the brX Content. We invite you to look around and start building your own version of this app by cloning it and playing around.
+                        parameters:
+                        - name: titlesize
+                          value: H3
+                        - name: textalignment
+                          value: left
+                        - name: style
+                          value: style1
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Resource-Version:
+              description: Resource's version. Must be used in any subsequent update requests of this resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+              examples:
+                A page:
+                  description: In this example, a Page is created
+                  value:
+                    name: home
+                    displayName: Home
+                    layout: two-column
+                    document:
+                      contentType: brxsaas:content
+                      fields:
+                      - name: title
+                        value:
+                        - Example title
+                      - name: content
+                        value:
+                        - <p>Some html content</p>
+                      - name: image
+                        value:
+                        - /content/gallery/brxsaas/banners/brand-1.jpg
+                      - name: introduction
+                        value:
+                        - Example introduction
+                      - name: date
+                        value:
+                        - 2021-10-06T22:00:00Z
+                    containers:
+                    - path: top
+                      components:
+                      - componentDefinition: sample/single-banner-carousel
+                        componentConfigurations:
+                        - id: DEFAULT
+                          content: null
+                          parameters:
+                          - name: alignment
+                            value: center
+                          - name: document1
+                            value: banners/safe-workspace-1
+                          - name: document2
+                            value: banners/safe-workspace-2
+                          - name: interval
+                            value: "10000"
+                    - path: main
+                      components:
+                      - componentDefinition: sample/titleandtext
+                        componentConfigurations:
+                        - id: DEFAULT
+                          content:
+                            contentType: brxsaas:titleandtext
+                            fields:
+                            - name: title
+                              value:
+                              - Welcome to brX Content
+                            - name: text
+                              value:
+                              - Welcome to the Bloomreach Sample Front-end Application for the brX Content. This front-end application includes a range of implementations for starting your own website, including Bloomreach Search and Merchandising functionality, GraphQL, and other integrations across the brX Content. We invite you to look around and start building your own version of this app by cloning it and playing around.
+                          parameters:
+                          - name: titlesize
+                            value: H3
+                          - name: textalignment
+                            value: left
+                          - name: style
+                            value: style1
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+        "201":
+          description: Created
+          headers:
+            X-Resource-Version:
+              description: Resource's version. Must be used in any subsequent update requests of this resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+              examples:
+                A page:
+                  description: In this example, a Page is created
+                  value:
+                    name: home
+                    displayName: Home
+                    layout: two-column
+                    document:
+                      contentType: brxsaas:content
+                      fields:
+                      - name: title
+                        value:
+                        - Example title
+                      - name: content
+                        value:
+                        - <p>Some html content</p>
+                      - name: image
+                        value:
+                        - /content/gallery/brxsaas/banners/brand-1.jpg
+                      - name: introduction
+                        value:
+                        - Example introduction
+                      - name: date
+                        value:
+                        - 2021-10-06T22:00:00Z
+                    containers:
+                    - path: top
+                      components:
+                      - componentDefinition: sample/single-banner-carousel
+                        componentConfigurations:
+                        - id: DEFAULT
+                          content: null
+                          parameters:
+                          - name: alignment
+                            value: center
+                          - name: document1
+                            value: banners/safe-workspace-1
+                          - name: document2
+                            value: banners/safe-workspace-2
+                          - name: interval
+                            value: "10000"
+                    - path: main
+                      components:
+                      - componentDefinition: sample/titleandtext
+                        componentConfigurations:
+                        - id: DEFAULT
+                          content:
+                            contentType: brxsaas:titleandtext
+                            fields:
+                            - name: title
+                              value:
+                              - Welcome to brX Content
+                            - name: text
+                              value:
+                              - Welcome to the Bloomreach Sample Front-end Application for the brX Content. This front-end application includes a range of implementations for starting your own website, including Bloomreach Search and Merchandising functionality, GraphQL, and other integrations across the brX Content. We invite you to look around and start building your own version of this app by cloning it and playing around.
+                          parameters:
+                          - name: titlesize
+                            value: H3
+                          - name: textalignment
+                            value: left
+                          - name: style
+                            value: style1
+                    system:
+                      createdBy: admin
+                      createdAt: 2021-10-01T15:16:14.146+02:00
+                      updatedBy: admin
+                      updatedAt: 2021-10-01T15:16:14.22+02:00
+        "403":
+          description: Forbidden
+  /project/{project_id}/resourcebundles/{resource_bundle_path}:
+    get:
+      tags:
+      - Content Resource Bundle Operations
+      summary: Get a resource bundle in a specific project
+      description: Get a resource bundle in a specific project
+      operationId: getResourceBundle
+      parameters:
+      - name: project_id
+        in: path
+        description: specifies the project content is fetched from
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: vIUy9
+      - name: resource_bundle_path
+        in: path
+        description: Path of a document. This is the absolute path to the document, including the document name
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: /content/documents/brxsaas/banners/banner1
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Resource-Version:
+              description: Resource's version. Must be used in any subsequent update requests of this resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - Content Resource Bundle Operations
+      summary: Create or update a resource bundle in a specific project
+      description: Create or update a resource bundle in a specific project
+      operationId: putResourceBundle
+      parameters:
+      - name: X-Resource-Version
+        in: header
+        description: Resource's version, as obtained when GETting the resource. The first time a resource is created, a empty value is expected (omit the header). Must be used in any subsequent update requests of this resource
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 433cc90445d29c2356e385b9efe548b19ed86739f27eb7958a81847b9d8517c2
+      - name: project_id
+        in: path
+        description: specifies the project content is added to
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: vIUy9
+      - name: resource_bundle_path
+        in: path
+        description: Path of a document. This is the absolute path to the document, including the document name. Folders appearing in this path need to preexist
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: /content/documents/brxsaas/banners/banner1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceBundle'
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Resource-Version:
+              description: Resource's version. Must be used in any subsequent update requests of this resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        "201":
+          description: Created
+          headers:
+            X-Resource-Version:
+              description: Resource's version. Must be used in any subsequent update requests of this resource
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        "403":
+          description: Forbidden
+components:
+  schemas:
+    Document:
+      required:
+      - contentType
+      - displayName
+      - fields
+      - name
+      - path
+      type: object
+      properties:
+        contentType:
+          type: string
+          description: the content type of the document (eg banner, newsArticle). The value for the contentType may optionally include the namespace prefix; this is only required in case the type is in a namespace other than 'brxsaas', eg mynamespace:content
+        fields:
+          type: array
+          description: fields of this document. A document field represents an attribute of the document, as specified in the document's content type. See [Content type fields](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html) and [General concepts](https://documentation.bloomreach.com/developers/concepts/content-concepts.html)
+          items:
+            $ref: '#/components/schemas/DocumentField'
+        name:
+          pattern: ^[a-z0-9-._]*
+          type: string
+          description: identifying name of this document. Only valid characters are lowercase alphanumeric, dash, dot, and underscore. This value appears in URLs. The value also must match the document name(last part of the path) in the document path.
+        displayName:
+          type: string
+          description: name of this document. Used in labels in the CMS UI and in Delivery API. The displayName can only be set if either is true:a. the document is new, b. the document only exists in the project specified in this operation
+        path:
+          type: string
+          description: absolute path of this document in the content repository
+        system:
+          $ref: '#/components/schemas/System'
+      description: A document is a content item in the Content repository. See [Content types](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-types.html) and [General concepts](https://documentation.bloomreach.com/developers/concepts/content-concepts.html)
+    DocumentField:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          pattern: ^[A-Za-z0-9_]*
+          type: string
+          description: identifying name of this field. Value needs to correspond to the name of a field definition in the document's content type
+        value:
+          type: array
+          description: value of a field. As fields can be multiple, this attribute is an array of values
+          items:
+            $ref: '#/components/schemas/FieldValue'
+      description: A document field represents an attribute of the document, as specified in the document's content type. See [Content type fields](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html) and [General concepts](https://documentation.bloomreach.com/developers/concepts/content-concepts.html)
+    EmbeddedResourceFieldValue:
+      required:
+      - binarydata
+      - filename
+      - mimeType
+      type: object
+      properties:
+        filename:
+          type: string
+          description: the name of the file that is used as default value
+        binarydata:
+          type: string
+          description: the binary data of the file that is used as default value. This data has to be encoded using base64
+        mimeType:
+          type: string
+          description: the mimeType of the file to be uploaded
+      description: See [EmbeddedResource](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_embeddedresource)
+    FieldGroupFieldValue:
+      required:
+      - fields
+      type: object
+      properties:
+        fields:
+          type: object
+          additionalProperties:
+            type: array
+            description: fields from FieldGroup or SelectableFieldGroup
+            items:
+              $ref: '#/components/schemas/FieldValue'
+          description: fields from FieldGroup or SelectableFieldGroup
+      description: See [FieldGroup](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_fieldgroup)
+    FieldValue:
+      type: object
+      description: Value of a field
+      oneOf:
+      - type: string
+      - type: boolean
+      - type: integer
+        format: int64
+      - type: number
+        format: double
+      - $ref: '#/components/schemas/EmbeddedResourceFieldValue'
+      - $ref: '#/components/schemas/FieldGroupFieldValue'
+      - $ref: '#/components/schemas/SelectableFieldGroupFieldValue'
+    SelectableFieldGroupFieldValue:
+      required:
+      - fieldGroupType
+      - fields
+      type: object
+      properties:
+        fields:
+          type: object
+          additionalProperties:
+            type: array
+            description: fields from FieldGroup or SelectableFieldGroup
+            items:
+              $ref: '#/components/schemas/FieldValue'
+          description: fields from FieldGroup or SelectableFieldGroup
+        fieldGroupType:
+          type: string
+          description: the name of the fieldgroup type this default value is provided for
+      description: See [Selectable FieldGroup](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html#scroll_selectable-fieldgroup)
+    System:
+      type: object
+      properties:
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+      description: system properties
+      readOnly: true
+    BaseDocument:
+      required:
+      - contentType
+      - fields
+      type: object
+      properties:
+        contentType:
+          type: string
+          description: the content type of the document (eg banner, newsArticle). The value for the contentType may optionally include the namespace prefix; this is only required in case the type is in a namespace other than 'brxsaas', eg mynamespace:content
+        fields:
+          type: array
+          description: fields of this document. A document field represents an attribute of the document, as specified in the document's content type. See [Content type fields](https://documentation.bloomreach.com/api-reference/content/management/content-type-management-api/content-type-fields.html) and [General concepts](https://documentation.bloomreach.com/developers/concepts/content-concepts.html)
+          items:
+            $ref: '#/components/schemas/DocumentField'
+      description: The internal data of a document, including content type and fields
+    Page:
+      required:
+      - displayName
+      - document
+      - layout
+      - name
+      type: object
+      properties:
+        name:
+          pattern: ^[a-z0-9-._]*
+          type: string
+          description: identifying name of this page. Only valid characters are lowercase alphanumeric, dot, dash and underscore. This value appears in URLs
+        displayName:
+          type: string
+          description: name of this page. Used in labels in the CMS UI and in Delivery API. The displayName can only be set if either is true:a. the page is new, b. the page only exists in the project specified in this operation
+        layout:
+          type: string
+          description: the page template
+        document:
+          $ref: '#/components/schemas/BaseDocument'
+        containers:
+          type: array
+          description: array of containers of this page
+          items:
+            $ref: '#/components/schemas/PageContainer'
+        system:
+          $ref: '#/components/schemas/System'
+    PageComponent:
+      type: object
+      properties:
+        componentDefinition:
+          type: string
+        componentConfigurations:
+          type: array
+          description: The list of component configurations for this component
+          items:
+            $ref: '#/components/schemas/PageComponentConfiguration'
+      description: array of components used in this container
+    PageComponentConfiguration:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of this configuration. The id of the default variant of a component should be DEFAULT, for the rest of the variants, the variant id is created in the format of campaign_id:campaign_segment_id or segmentation_id:segment_id, See [Segmentation & Campaigns](https://documentation.bloomreach.com/user-guides/testing-and-audiences/content-audiences/content-audiences.html)
+        content:
+          $ref: '#/components/schemas/BaseDocument'
+        parameters:
+          type: array
+          description: The list of component parameters for this configuration
+          items:
+            $ref: '#/components/schemas/StringParameter'
+      description: A configuration for a PageComponent
+    PageContainer:
+      required:
+      - path
+      type: object
+      properties:
+        path:
+          type: string
+          description: path of the container
+        components:
+          type: array
+          description: array of components used in this container
+          items:
+            $ref: '#/components/schemas/PageComponent'
+      description: array of containers of this page
+    StringParameter:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of this parameter
+        value:
+          type: string
+          description: value of this parameter
+      description: The list of component parameters for this configuration
+    ResouceBundleKey:
+      required:
+      - description
+      - name
+      type: object
+      properties:
+        name:
+          pattern: ^[a-zA-Z0-9-._]*
+          type: string
+          description: identifying key of this resource bundle message. Only valid characters are lower/uppercase letters, numbers, and '-' '.' '_'
+        description:
+          type: string
+          description: description of this resource bundle message
+      description: keys of the resource bundle
+    ResouceBundleMessage:
+      required:
+      - key
+      - value
+      type: object
+      properties:
+        key:
+          pattern: ^[a-zA-Z0-9-._]*
+          type: string
+          description: identifying key of this resource bundle message. Only valid characters are lower/uppercase letters, numbers, and '-' '.' '_'
+        value:
+          type: string
+          description: value of this resource bundle message
+      description: messages in the value set
+    ResourceBundle:
+      required:
+      - displayName
+      - id
+      - keys
+      - name
+      - path
+      - valueSets
+      type: object
+      properties:
+        name:
+          pattern: ^[a-z0-9-._]*
+          type: string
+          description: identifying name of this resource bundle. Only valid characters are lowercase alphanumeric, dash, dot, and underscore. This value appears in URLs. The value also must match the document name(last part of the path) in the document path.
+        displayName:
+          type: string
+          description: name of this resource bundle. Used in labels in the CMS UI
+        id:
+          pattern: ^[a-zA-Z0-9-._]*
+          type: string
+          description: id of the resource bundle
+        path:
+          type: string
+          description: absolute path of this resource bundle in the content repository
+        keys:
+          type: array
+          description: keys of the resource bundle
+          items:
+            $ref: '#/components/schemas/ResouceBundleKey'
+        valueSets:
+          type: array
+          description: value sets of the resource bundle
+          items:
+            $ref: '#/components/schemas/ResourceBundleValueSet'
+        system:
+          $ref: '#/components/schemas/System'
+    ResourceBundleValueSet:
+      required:
+      - name
+      type: object
+      properties:
+        messages:
+          type: array
+          description: messages in the value set
+          items:
+            $ref: '#/components/schemas/ResouceBundleMessage'
+        name:
+          pattern: ^[a-zA-Z0-9-._]*
+          type: string
+          description: name of the message value set. Expects a string value
+      description: value sets of the resource bundle
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: x-auth-userid
+      in: header
