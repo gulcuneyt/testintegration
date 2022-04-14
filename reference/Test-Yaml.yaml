@@ -3,7 +3,7 @@
 "info": {
 "title": "Content API",
 "description": "The Content API enables brX developers to import content through a set of endpoints",
-"version": "1.0.0"
+"version": "1.0.0-Beta"
 },
 "externalDocs": {
 "description": "See official Bloomreach documentation",
