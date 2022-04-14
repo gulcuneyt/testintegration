@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "SecondAPIddd",
+    "title": "mylastAPI",
     "version": "1.0"
   },
   "servers": [
